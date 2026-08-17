@@ -36,6 +36,7 @@ const COURSES = [
     en: 'iPad Creative Studio',
     icon: 'device-ipad',
     type: 'sessions',
+    skills: ['圖層', '選取', '配色', '版面設計'],
     intro: `｜這堂課在做什麼｜
 從空白畫布到成品海報，孩子們一層一層疊出自己的風格：先摸熟圖層與透明度，再練套索精準選取，最後用60／30／10配色法把整張作品收乾淨。`,
     sessions: [
@@ -55,6 +56,7 @@ const COURSES = [
     en: 'Museum & Artifact Explorer',
     icon: 'building-monument',
     type: 'sessions',
+    skills: ['觀察力', '推理', '策展思維', '口語表達'],
     intro: `｜這堂課在做什麼｜
 翠玉白菜為什麼有名？策展人整天在忙什麼？孩子們化身文物偵探與小小導覽員，從大英博物館走到故宮，拆解一件收藏品從被發現到被展出的完整旅程。`,
     sessions: [
@@ -80,6 +82,7 @@ const COURSES = [
     en: 'Junior Chef',
     icon: 'chef-hat',
     type: 'sessions',
+    skills: ['味覺體驗', '餐桌禮儀', '動手實作'],
     intro: `｜這堂課在做什麼｜
 揉麵團、捏飯糰、擺盤——小廚神系列讓孩子們動手做出各國餐桌上的味道，從日式壽司到英式下午茶，順便學會怎麼有禮貌地吃一頓飯。`,
     sessions: [
@@ -93,6 +96,7 @@ const COURSES = [
     en: 'Clay Workshop',
     icon: 'palette',
     type: 'sessions',
+    skills: ['比例掌握', '造型設計', '細節雕琢'],
     intro: `｜這堂課在做什麼｜
 從一顆黏土開始，捏出屬於自己的迷你博物館。孩子們練習觀察比例、質感與細節，把腦中的想法變成掌心大小的展品。`,
     sessions: [
@@ -105,6 +109,7 @@ const COURSES = [
     en: 'AI Studio',
     icon: 'cpu',
     type: 'sessions',
+    skills: ['提示詞設計', '創意發想', '人機協作'],
     intro: `｜這堂課在做什麼｜
 如果展覽也有主題曲呢？孩子們把 AI 工具當成新夥伴，練習下指令、調整風格，最後產出一首只屬於自己展覽的旋律。`,
     sessions: [
@@ -118,6 +123,7 @@ const COURSES = [
     icon: 'plant-2',
     type: 'fixed',
     months: ['jul', 'aug'],
+    skills: ['自然觀察', '感官探索'],
     intro: `｜這堂課在做什麼｜
 每週固定的戶外時光，讓孩子們暫時放下螢幕，蹲下來看看葉子的紋路、聽聽蟲鳴，重新學習怎麼慢下來觀察世界。`
   },
@@ -128,6 +134,7 @@ const COURSES = [
     icon: 'language',
     type: 'fixed',
     months: ['jul', 'aug'],
+    skills: ['口說練習', '生活會話'],
     intro: `｜這堂課在做什麼｜
 從打招呼到點餐，孩子們用遊戲、歌曲和生活情境一點一點認識日語，順便發現原來語言可以這麼好玩。`
   },
@@ -138,6 +145,7 @@ const COURSES = [
     icon: 'swimming',
     type: 'fixed',
     months: ['jul', 'aug'],
+    skills: ['換氣技巧', '體能訓練', '水中安全'],
     intro: `｜這堂課在做什麼｜
 每週外出上課，在水裡練習換氣、划手、踢腿——游泳課教的不只是技巧，還有面對水的信心。`
   },
@@ -147,6 +155,7 @@ const COURSES = [
     en: 'Field Trips',
     icon: 'bus',
     type: 'sessions',
+    skills: ['實地觀察', '知識應用'],
     intro: `｜這堂課在做什麼｜
 教室外面才是最大的教室。孩子們走進故宮、自來水博物館、科學樂園，把課堂上學到的知識帶到真實場景裡驗證。`,
     sessions: [
