@@ -226,6 +226,15 @@
   const monthsEl = document.getElementById('months');
   const sessionState = {}; // keyed by `${date}_${slug}`
 
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting){
+        entry.target.classList.add('in-view');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15 });
+
   MONTHS.forEach(month => {
     // 固定型課程：依 months 欄位判斷是否出現
     // 場次型課程：只要該月份至少有一個場次就出現，且面板只列該月份的場次
@@ -459,15 +468,6 @@
     div.textContent = str;
     return div.innerHTML;
   }
-
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting){
-        entry.target.classList.add('in-view');
-        observer.unobserve(entry.target);
-      }
-    });
-  }, { threshold: 0.15 });
 </script>
 
 </body>
