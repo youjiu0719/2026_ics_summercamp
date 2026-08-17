@@ -199,7 +199,9 @@
 
 <script src="./data.js"></script>
 <script>
-  pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+  if (typeof pdfjsLib !== 'undefined') {
+    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+  }
 
   const ICONS = {
     'device-ipad': '<rect x="6" y="3" width="12" height="18" rx="2"/><circle cx="12" cy="18" r="0.6" fill="currentColor" stroke="none"/>',
@@ -382,6 +384,12 @@
     const label = row.querySelector('.pdf-page-label');
     const prevBtn = row.querySelector('.pdf-prev');
     const nextBtn = row.querySelector('.pdf-next');
+
+    if (typeof pdfjsLib === 'undefined'){
+      wrap.innerHTML = '<p class="pdf-placeholder">投影片檢視元件載入失敗，請重新整理頁面。</p>';
+      label.textContent = '—';
+      return;
+    }
 
     let doc;
     try{
