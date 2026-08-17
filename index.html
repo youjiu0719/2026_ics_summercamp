@@ -51,271 +51,132 @@
   .wrap{max-width:760px; margin:0 auto; padding:0 20px;}
 
   /* ---------- Hero ---------- */
-  .hero{
-    padding:64px 0 40px;
-    border-bottom:1px solid var(--line);
-  }
+  .hero{ padding:64px 0 40px; border-bottom:1px solid var(--line); }
   .hero .eyebrow{
-    font-family:var(--font-mono);
-    font-size:12px;
-    letter-spacing:0.08em;
-    color:var(--blue-deep);
-    margin:0 0 14px;
+    font-family:var(--font-mono); font-size:12px; letter-spacing:0.08em;
+    color:var(--blue-deep); margin:0 0 14px;
   }
   .hero h1{
-    font-family:var(--font-display);
-    font-weight:600;
-    font-size:clamp(32px, 6vw, 48px);
-    line-height:1.15;
-    margin:0 0 16px;
-    letter-spacing:-0.01em;
+    font-family:var(--font-display); font-weight:600;
+    font-size:clamp(32px, 6vw, 48px); line-height:1.15;
+    margin:0 0 16px; letter-spacing:-0.01em;
   }
-  .hero h1 .en{
-    display:block;
-    font-size:0.55em;
-    color:var(--ink-soft);
-    font-weight:500;
-    margin-top:4px;
-  }
-  .hero p.tagline{
-    font-size:16px;
-    color:var(--ink-soft);
-    line-height:1.75;
-    max-width:520px;
-    margin:0 0 20px;
-  }
+  .hero h1 .en{ display:block; font-size:0.55em; color:var(--ink-soft); font-weight:500; margin-top:4px; }
+  .hero p.tagline{ font-size:16px; color:var(--ink-soft); line-height:1.75; max-width:520px; margin:0 0 20px; }
   .hero .dates{
-    font-family:var(--font-mono);
-    font-size:13px;
-    color:var(--ink-soft);
-    display:inline-flex;
-    align-items:center;
-    gap:8px;
-    padding:6px 14px;
-    border:1px solid var(--line);
-    border-radius:99px;
+    font-family:var(--font-mono); font-size:13px; color:var(--ink-soft);
+    display:inline-flex; align-items:center; gap:8px;
+    padding:6px 14px; border:1px solid var(--line); border-radius:99px;
   }
 
-  /* ---------- Trail intro ---------- */
-  .trail-hint{
-    font-size:13px;
-    color:var(--ink-faint);
-    margin:32px 0 4px;
+  /* ---------- Month sections ---------- */
+  .month-section{ margin-top:8px; }
+  .month-head{
+    display:flex; align-items:baseline; gap:12px;
+    padding:36px 0 4px;
+    position:sticky; top:0; background:var(--paper); z-index:2;
   }
+  .month-head h2{ font-family:var(--font-display); font-weight:600; font-size:22px; margin:0; }
+  .month-head .en{ font-family:var(--font-mono); font-size:12px; color:var(--ink-faint); }
+  .trail-hint{ font-size:13px; color:var(--ink-faint); margin:6px 0 0; }
 
   /* ---------- Trail ---------- */
-  .trail{
-    position:relative;
-    padding:24px 0 60px 44px;
-  }
+  .trail{ position:relative; padding:24px 0 20px 44px; }
   .trail::before{
-    content:'';
-    position:absolute;
-    left:17px;
-    top:24px;
-    bottom:60px;
-    width:0;
+    content:''; position:absolute; left:17px; top:24px; bottom:20px; width:0;
     border-left:1.5px dashed var(--line-blue);
   }
+  .month-section:last-child .trail{ padding-bottom:60px; }
+  .month-section:last-child .trail::before{ bottom:60px; }
+
   .station{
-    position:relative;
-    margin-bottom:14px;
-    opacity:0;
-    transform:translateY(12px);
+    position:relative; margin-bottom:14px;
+    opacity:0; transform:translateY(12px);
     transition:opacity .5s ease, transform .5s ease;
   }
-  .station.in-view{
-    opacity:1;
-    transform:translateY(0);
-  }
+  .station.in-view{ opacity:1; transform:translateY(0); }
   .station-badge{
-    position:absolute;
-    left:-44px;
-    top:2px;
-    width:30px;
-    height:30px;
-    border-radius:50%;
-    background:var(--blue-tint);
-    border:1.5px solid var(--line-blue);
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-family:var(--font-mono);
-    font-size:11px;
-    font-weight:500;
-    color:var(--blue-deep);
+    position:absolute; left:-44px; top:2px; width:30px; height:30px; border-radius:50%;
+    background:var(--blue-tint); border:1.5px solid var(--line-blue);
+    display:flex; align-items:center; justify-content:center;
+    font-family:var(--font-mono); font-size:11px; font-weight:500; color:var(--blue-deep);
     transition:background .25s ease, border-color .25s ease, color .25s ease;
   }
-  .station.open .station-badge{
-    background:var(--blue);
-    border-color:var(--blue);
-    color:#fff;
-  }
+  .station.open .station-badge{ background:var(--blue); border-color:var(--blue); color:#fff; }
   .station-head{
-    display:flex;
-    align-items:center;
-    gap:10px;
-    width:100%;
-    background:none;
-    border:none;
-    padding:6px 4px;
-    text-align:left;
-    cursor:pointer;
-    font-family:inherit;
-    border-radius:10px;
+    display:flex; align-items:center; gap:10px; width:100%;
+    background:none; border:none; padding:6px 4px; text-align:left; cursor:pointer;
+    font-family:inherit; border-radius:10px;
   }
   .station-head:hover{ background:var(--blue-tint); }
   .station-head:focus-visible{ outline:2px solid var(--blue); outline-offset:2px; }
-  .station-icon{
-    width:18px; height:18px;
-    color:var(--ink-faint);
-    flex-shrink:0;
-    transition:color .25s ease;
-  }
+  .station-icon{ width:18px; height:18px; color:var(--ink-faint); flex-shrink:0; transition:color .25s ease; }
   .station.open .station-icon{ color:var(--blue-deep); }
   .station-titles{ flex:1; min-width:0; }
-  .station-titles .zh{
-    font-size:15px;
-    font-weight:500;
-    color:var(--ink);
-    margin:0;
-  }
-  .station-titles .en{
-    font-size:11px;
-    color:var(--ink-faint);
-    font-family:var(--font-mono);
-    margin:1px 0 0;
-  }
-  .station-chevron{
-    width:16px; height:16px;
-    color:var(--ink-faint);
-    flex-shrink:0;
-    transition:transform .3s ease;
-  }
+  .station-titles .zh{ font-size:15px; font-weight:500; color:var(--ink); margin:0; }
+  .station-titles .en{ font-size:11px; color:var(--ink-faint); font-family:var(--font-mono); margin:1px 0 0; }
+  .station-chevron{ width:16px; height:16px; color:var(--ink-faint); flex-shrink:0; transition:transform .3s ease; }
   .station.open .station-chevron{ transform:rotate(90deg); color:var(--blue); }
 
-  .station-panel{
-    overflow:hidden;
-    max-height:0;
-    transition:max-height .4s ease;
-  }
-  .station.open .station-panel{ max-height:2000px; }
-  .station-panel-inner{
-    background:var(--blue-tint);
-    border-radius:12px;
-    padding:16px 16px 18px;
-    margin:8px 4px 4px;
-  }
+  .station-panel{ overflow:hidden; max-height:0; transition:max-height .4s ease; }
+  .station.open .station-panel{ max-height:3000px; }
+  .station-panel-inner{ background:var(--blue-tint); border-radius:12px; padding:16px 16px 18px; margin:8px 4px 4px; }
 
-  .intro-text p{
-    font-size:14px;
-    line-height:1.85;
-    color:#374151;
-    margin:0 0 10px;
-  }
-  .intro-text .heading{
-    font-size:13px;
-    font-weight:700;
-    color:var(--blue-deep);
-    margin:14px 0 6px;
-  }
+  .intro-text p{ font-size:14px; line-height:1.85; color:#374151; margin:0 0 10px; }
+  .intro-text .heading{ font-size:13px; font-weight:700; color:var(--blue-deep); margin:14px 0 6px; }
   .intro-text .heading:first-child{ margin-top:0; }
-  .intro-loading, .intro-empty{
-    font-size:13px;
-    color:var(--ink-faint);
+  .intro-empty{ font-size:13px; color:var(--ink-faint); }
+
+  /* ---------- Session list ---------- */
+  .session-list{ margin-top:14px; }
+  .session-row{ background:#fff; border:1px solid var(--line); border-radius:10px; margin-bottom:6px; overflow:hidden; }
+  .session-head{
+    display:flex; align-items:center; gap:10px; width:100%;
+    background:none; border:none; padding:10px 12px; text-align:left; cursor:pointer; font-family:inherit;
   }
+  .session-head:hover{ background:var(--blue-tint); }
+  .session-date{ font-family:var(--font-mono); font-size:11px; color:var(--blue-deep); flex-shrink:0; }
+  .session-title{ flex:1; font-size:13px; color:var(--ink); }
+  .session-chevron{ width:14px; height:14px; color:var(--ink-faint); flex-shrink:0; transition:transform .3s ease; }
+  .session-row.open .session-chevron{ transform:rotate(90deg); color:var(--blue); }
+  .session-body{ overflow:hidden; max-height:0; transition:max-height .35s ease; }
+  .session-row.open .session-body{ max-height:1200px; }
+  .session-body-inner{ padding:0 12px 12px; }
+  .sessions-empty{ font-size:13px; color:var(--ink-faint); margin-top:14px; }
+  .session-intro{ font-size:13px; line-height:1.75; color:#374151; margin:0 0 10px; }
 
   /* ---------- PDF viewer ---------- */
-  .pdf-box{
-    background:#fff;
-    border:1px solid var(--line);
-    border-radius:10px;
-    padding:10px;
-    margin-top:14px;
-  }
+  .pdf-box{ background:#F8FAFC; border:1px solid var(--line); border-radius:10px; padding:10px; }
   .pdf-canvas-wrap{
-    background:#F4F5F7;
-    border-radius:6px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    min-height:180px;
-    overflow:hidden;
+    background:#F4F5F7; border-radius:6px;
+    display:flex; align-items:center; justify-content:center; min-height:160px; overflow:hidden;
   }
   .pdf-canvas-wrap canvas{ max-width:100%; display:block; }
-  .pdf-controls{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    margin-top:8px;
-    padding:0 2px;
-  }
+  .pdf-controls{ display:flex; align-items:center; justify-content:space-between; margin-top:8px; padding:0 2px; }
   .pdf-nav-btn{
-    background:none;
-    border:1px solid var(--line);
-    border-radius:8px;
-    width:30px; height:30px;
-    display:flex; align-items:center; justify-content:center;
-    cursor:pointer;
-    color:var(--ink-soft);
+    background:none; border:1px solid var(--line); border-radius:8px; width:28px; height:28px;
+    display:flex; align-items:center; justify-content:center; cursor:pointer; color:var(--ink-soft);
   }
   .pdf-nav-btn:hover:not(:disabled){ border-color:var(--blue); color:var(--blue); }
   .pdf-nav-btn:disabled{ opacity:0.35; cursor:default; }
-  .pdf-page-label{
-    font-family:var(--font-mono);
-    font-size:11px;
-    color:var(--ink-faint);
-  }
-  .pdf-placeholder{
-    font-size:13px;
-    color:var(--ink-faint);
-    text-align:center;
-    padding:24px 0;
-  }
+  .pdf-page-label{ font-family:var(--font-mono); font-size:11px; color:var(--ink-faint); }
+  .pdf-placeholder{ font-size:13px; color:var(--ink-faint); text-align:center; padding:20px 0; }
 
   /* ---------- Photos ---------- */
-  .photos-label{
-    font-size:11px;
-    color:var(--ink-faint);
-    margin:16px 0 8px;
-  }
-  .photos-grid{
-    display:grid;
-    grid-template-columns:repeat(3, 1fr);
-    gap:6px;
-  }
-  .photos-grid a{
-    display:block;
-    aspect-ratio:1;
-    border-radius:8px;
-    overflow:hidden;
-    background:var(--blue-tint-2);
-  }
-  .photos-grid img{
-    width:100%; height:100%;
-    object-fit:cover;
-    display:block;
-    transition:transform .3s ease;
-  }
+  .photos-label{ font-size:11px; color:var(--ink-faint); margin:12px 0 8px; }
+  .photos-grid{ display:grid; grid-template-columns:repeat(3, 1fr); gap:6px; }
+  .photos-grid a{ display:block; aspect-ratio:1; border-radius:8px; overflow:hidden; background:var(--blue-tint-2); }
+  .photos-grid img{ width:100%; height:100%; object-fit:cover; display:block; transition:transform .3s ease; }
   .photos-grid a:hover img{ transform:scale(1.06); }
 
-  /* ---------- Footer ---------- */
-  footer{
-    border-top:1px solid var(--line);
-    padding:28px 0 60px;
-  }
-  footer p{
-    font-size:12px;
-    color:var(--ink-faint);
-    margin:0;
-  }
+  footer{ border-top:1px solid var(--line); padding:28px 0 60px; }
+  footer p{ font-size:12px; color:var(--ink-faint); margin:0; }
 
   @media (max-width:480px){
     .hero{ padding:44px 0 32px; }
     .trail{ padding-left:38px; }
     .trail::before{ left:14px; }
     .station-badge{ left:-38px; width:26px; height:26px; font-size:10px; }
-    .photos-grid{ grid-template-columns:repeat(3, 1fr); }
   }
 </style>
 </head>
@@ -329,9 +190,7 @@
     <span class="dates">7.6 — 8.31 · 9 weeks</span>
   </header>
 
-  <p class="trail-hint">向下捲動，點開每一站查看課程內容</p>
-
-  <div class="trail" id="trail"></div>
+  <div id="months"></div>
 
   <footer>
     <p>Da Li Educational Center · I.C.S. Creator Academy 2026</p>
@@ -358,87 +217,92 @@
     const inner = ICONS[key] || '<circle cx="12" cy="12" r="8"/>';
     return `<svg class="station-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${inner}</svg>`;
   }
-
-  const trailEl = document.getElementById('trail');
-  const state = {}; // per-course loaded flags + pdf doc + current page
-
-  COURSES.forEach((course, idx) => {
-    state[course.id] = { loaded:false, pdfDoc:null, page:1, pageCount:0, rendering:false };
-
-    const num = String(idx + 1).padStart(2, '0');
-    const station = document.createElement('div');
-    station.className = 'station';
-    station.dataset.id = course.id;
-    station.innerHTML = `
-      <div class="station-badge">${num}</div>
-      <button class="station-head" aria-expanded="false">
-        ${iconSvg(course.icon)}
-        <span class="station-titles">
-          <p class="zh">${course.zh}</p>
-          <p class="en">${course.en}</p>
-        </span>
-        <svg class="station-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>
-      </button>
-      <div class="station-panel">
-        <div class="station-panel-inner">
-          <div class="intro-text"><p class="intro-loading">載入中…</p></div>
-          <div class="pdf-box">
-            <div class="pdf-canvas-wrap"><canvas></canvas></div>
-            <div class="pdf-controls">
-              <button class="pdf-nav-btn pdf-prev" aria-label="上一頁" disabled>
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg>
-              </button>
-              <span class="pdf-page-label">—</span>
-              <button class="pdf-nav-btn pdf-next" aria-label="下一頁" disabled>
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>
-              </button>
-            </div>
-          </div>
-          <div class="photos-section" hidden>
-            <p class="photos-label">花絮照片</p>
-            <div class="photos-grid"></div>
-          </div>
-        </div>
-      </div>
-    `;
-    trailEl.appendChild(station);
-
-    const head = station.querySelector('.station-head');
-    head.addEventListener('click', () => toggleStation(course, station));
-
-    const prevBtn = station.querySelector('.pdf-prev');
-    const nextBtn = station.querySelector('.pdf-next');
-    prevBtn.addEventListener('click', () => changePage(course.id, station, -1));
-    nextBtn.addEventListener('click', () => changePage(course.id, station, 1));
-  });
-
-  function toggleStation(course, station){
-    const isOpen = station.classList.contains('open');
-    document.querySelectorAll('.station.open').forEach(s => {
-      if (s !== station){
-        s.classList.remove('open');
-        s.querySelector('.station-head').setAttribute('aria-expanded', 'false');
-      }
-    });
-    station.classList.toggle('open', !isOpen);
-    station.querySelector('.station-head').setAttribute('aria-expanded', String(!isOpen));
-
-    if (!isOpen && !state[course.id].loaded){
-      state[course.id].loaded = true;
-      loadIntro(course, station);
-      loadPdf(course, station);
-      loadPhotos(course, station);
-    }
+  function chevronSvg(cls){
+    return `<svg class="${cls}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>`;
   }
 
-  async function loadIntro(course, station){
+  const monthsEl = document.getElementById('months');
+  const sessionState = {}; // keyed by `${date}_${slug}`
+
+  MONTHS.forEach(month => {
+    // 固定型課程：依 months 欄位判斷是否出現
+    // 場次型課程：只要該月份至少有一個場次就出現，且面板只列該月份的場次
+    const coursesInMonth = COURSES
+      .map(course => {
+        if (course.type === 'fixed') {
+          return course.months.includes(month.id) ? { course, sessions: null } : null;
+        }
+        const sessionsInMonth = course.sessions.filter(s => sessionMonth(s.date) === month.id);
+        return sessionsInMonth.length ? { course, sessions: sessionsInMonth } : null;
+      })
+      .filter(Boolean);
+
+    if (!coursesInMonth.length) return;
+
+    const section = document.createElement('section');
+    section.className = 'month-section';
+    section.innerHTML = `
+      <div class="month-head">
+        <h2>${month.zh}</h2>
+        <span class="en">${month.en}</span>
+      </div>
+      <p class="trail-hint">向下捲動，點開每一站查看課程內容</p>
+      <div class="trail"></div>
+    `;
+    monthsEl.appendChild(section);
+
+    const trailEl = section.querySelector('.trail');
+
+    coursesInMonth.forEach(({ course, sessions }, idx) => {
+      const num = String(idx + 1).padStart(2, '0');
+      const station = document.createElement('div');
+      station.className = 'station';
+      station.innerHTML = `
+        <div class="station-badge">${num}</div>
+        <button class="station-head" aria-expanded="false">
+          ${iconSvg(course.icon)}
+          <span class="station-titles">
+            <p class="zh">${course.zh}</p>
+            <p class="en">${course.en}</p>
+          </span>
+          ${chevronSvg('station-chevron')}
+        </button>
+        <div class="station-panel">
+          <div class="station-panel-inner">
+            <div class="intro-text"></div>
+            <div class="sessions-slot"></div>
+          </div>
+        </div>
+      `;
+      trailEl.appendChild(station);
+
+      const head = station.querySelector('.station-head');
+      let stationLoaded = false;
+      head.addEventListener('click', () => {
+        const isOpen = station.classList.contains('open');
+        trailEl.querySelectorAll('.station.open').forEach(s => {
+          if (s !== station){
+            s.classList.remove('open');
+            s.querySelector('.station-head').setAttribute('aria-expanded', 'false');
+          }
+        });
+        station.classList.toggle('open', !isOpen);
+        head.setAttribute('aria-expanded', String(!isOpen));
+
+        if (!isOpen && !stationLoaded){
+          stationLoaded = true;
+          renderIntro(course, station);
+          if (course.type === 'sessions') renderSessionList(course, sessions, station);
+        }
+      });
+
+      observer.observe(station);
+    });
+  });
+
+  function renderIntro(course, station){
     const introEl = station.querySelector('.intro-text');
-    const raw = await fetchTextFile(courseIntroPath(course.id));
-    if (!raw){
-      introEl.innerHTML = '<p class="intro-empty">簡介準備中。</p>';
-      return;
-    }
-    const blocks = parseIntroText(raw);
+    const blocks = parseIntroText(course.intro);
     introEl.innerHTML = blocks.map(b =>
       b.type === 'heading'
         ? `<p class="heading">${escapeHtml(b.text)}</p>`
@@ -446,42 +310,108 @@
     ).join('') || '<p class="intro-empty">簡介準備中。</p>';
   }
 
-  async function loadPdf(course, station){
-    const canvas = station.querySelector('canvas');
-    const wrap = station.querySelector('.pdf-canvas-wrap');
-    const label = station.querySelector('.pdf-page-label');
-    const prevBtn = station.querySelector('.pdf-prev');
-    const nextBtn = station.querySelector('.pdf-next');
+  function renderSessionList(course, sessions, station){
+    const slot = station.querySelector('.sessions-slot');
+    if (!sessions.length){
+      slot.innerHTML = '<p class="sessions-empty">場次資料準備中。</p>';
+      return;
+    }
+    const list = document.createElement('div');
+    list.className = 'session-list';
+    sessions.forEach(session => {
+      const key = `${session.date}_${session.slug}`;
+      sessionState[key] = { loaded:false, pdfDoc:null, page:1, pageCount:0, rendering:false };
+
+      const row = document.createElement('div');
+      row.className = 'session-row';
+      row.innerHTML = `
+        <button class="session-head" aria-expanded="false">
+          <span class="session-date">${formatSessionDate(session.date)}</span>
+          <span class="session-title">${escapeHtml(session.title)}</span>
+          ${chevronSvg('session-chevron')}
+        </button>
+        <div class="session-body">
+          <div class="session-body-inner">
+            ${session.intro ? `<p class="session-intro">${escapeHtml(session.intro)}</p>` : ''}
+            <div class="pdf-box">
+              <div class="pdf-canvas-wrap"><canvas></canvas></div>
+              <div class="pdf-controls">
+                <button class="pdf-nav-btn pdf-prev" aria-label="上一頁" disabled>
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg>
+                </button>
+                <span class="pdf-page-label">—</span>
+                <button class="pdf-nav-btn pdf-next" aria-label="下一頁" disabled>
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>
+                </button>
+              </div>
+            </div>
+            <div class="photos-section" hidden>
+              <p class="photos-label">花絮照片</p>
+              <div class="photos-grid"></div>
+            </div>
+          </div>
+        </div>
+      `;
+      list.appendChild(row);
+
+      const sHead = row.querySelector('.session-head');
+      const prevBtn = row.querySelector('.pdf-prev');
+      const nextBtn = row.querySelector('.pdf-next');
+      let sessionLoaded = false;
+
+      sHead.addEventListener('click', () => {
+        const isOpen = row.classList.contains('open');
+        row.classList.toggle('open', !isOpen);
+        sHead.setAttribute('aria-expanded', String(!isOpen));
+        if (!isOpen && !sessionLoaded){
+          sessionLoaded = true;
+          loadSessionPdf(session, row);
+          loadSessionPhotos(session, row);
+        }
+      });
+      prevBtn.addEventListener('click', () => changeSessionPage(key, row, -1));
+      nextBtn.addEventListener('click', () => changeSessionPage(key, row, 1));
+    });
+    slot.innerHTML = '';
+    slot.appendChild(list);
+  }
+
+  async function loadSessionPdf(session, row){
+    const key = `${session.date}_${session.slug}`;
+    const wrap = row.querySelector('.pdf-canvas-wrap');
+    const label = row.querySelector('.pdf-page-label');
+    const prevBtn = row.querySelector('.pdf-prev');
+    const nextBtn = row.querySelector('.pdf-next');
 
     let doc;
     try{
-      doc = await pdfjsLib.getDocument(coursePdfUrl(course.id)).promise;
+      doc = await pdfjsLib.getDocument(sessionPdfUrl(session.date, session.slug)).promise;
     }catch(e){
       try{
-        doc = await pdfjsLib.getDocument(coursePdfUrlFallback(course.id)).promise;
+        doc = await pdfjsLib.getDocument(sessionPdfUrlFallback(session.date, session.slug)).promise;
       }catch(e2){
         wrap.innerHTML = '<p class="pdf-placeholder">投影片準備中。</p>';
         label.textContent = '—';
         return;
       }
     }
-    state[course.id].pdfDoc = doc;
-    state[course.id].pageCount = doc.numPages;
-    state[course.id].page = 1;
-    await renderPage(course.id, station);
+    sessionState[key].pdfDoc = doc;
+    sessionState[key].pageCount = doc.numPages;
+    sessionState[key].page = 1;
+    await renderSessionPage(key, row);
     prevBtn.disabled = false;
     nextBtn.disabled = doc.numPages <= 1;
   }
 
-  async function renderPage(courseId, station){
-    const s = state[courseId];
+  async function renderSessionPage(key, row){
+    const s = sessionState[key];
     if (!s.pdfDoc || s.rendering) return;
     s.rendering = true;
-    const canvas = station.querySelector('canvas');
-    const wrap = station.querySelector('.pdf-canvas-wrap');
-    const label = station.querySelector('.pdf-page-label');
+    const canvas = row.querySelector('canvas');
+    const wrap = row.querySelector('.pdf-canvas-wrap');
+    const label = row.querySelector('.pdf-page-label');
     const page = await s.pdfDoc.getPage(s.page);
-    const containerWidth = wrap.clientWidth || 300;
+    const containerWidth = wrap.clientWidth || 280;
     const baseViewport = page.getViewport({ scale: 1 });
     const scale = containerWidth / baseViewport.width;
     const viewport = page.getViewport({ scale });
@@ -489,31 +419,29 @@
     canvas.width = viewport.width;
     canvas.height = viewport.height;
     await page.render({ canvasContext: ctx, viewport }).promise;
-    label.textContent = `${s.page} / ${s.pageCount} · slides.pdf`;
+    label.textContent = `${s.page} / ${s.pageCount}`;
     s.rendering = false;
   }
 
-  function changePage(courseId, station, delta){
-    const s = state[courseId];
+  function changeSessionPage(key, row, delta){
+    const s = sessionState[key];
     if (!s.pdfDoc) return;
     const next = s.page + delta;
     if (next < 1 || next > s.pageCount) return;
     s.page = next;
-    renderPage(courseId, station);
-    const prevBtn = station.querySelector('.pdf-prev');
-    const nextBtn = station.querySelector('.pdf-next');
-    prevBtn.disabled = s.page <= 1;
-    nextBtn.disabled = s.page >= s.pageCount;
+    renderSessionPage(key, row);
+    row.querySelector('.pdf-prev').disabled = s.page <= 1;
+    row.querySelector('.pdf-next').disabled = s.page >= s.pageCount;
   }
 
-  async function loadPhotos(course, station){
-    const files = await listPhotoFiles(course.id);
+  async function loadSessionPhotos(session, row){
+    const files = await listSessionPhotoFiles(session.date, session.slug);
     if (!files.length) return;
-    const section = station.querySelector('.photos-section');
-    const grid = station.querySelector('.photos-grid');
+    const section = row.querySelector('.photos-section');
+    const grid = row.querySelector('.photos-grid');
     grid.innerHTML = files.map(name => {
-      const url = coursePhotoUrl(course.id, name);
-      return `<a href="${url}" target="_blank" rel="noopener"><img src="${url}" alt="${escapeHtml(course.zh)} 照片" loading="lazy"></a>`;
+      const url = sessionPhotoUrl(session.date, session.slug, name);
+      return `<a href="${url}" target="_blank" rel="noopener"><img src="${url}" alt="${escapeHtml(session.title)} 照片" loading="lazy"></a>`;
     }).join('');
     section.hidden = false;
   }
@@ -524,7 +452,6 @@
     return div.innerHTML;
   }
 
-  // scroll reveal
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting){
@@ -533,7 +460,6 @@
       }
     });
   }, { threshold: 0.15 });
-  document.querySelectorAll('.station').forEach(el => observer.observe(el));
 </script>
 
 </body>
