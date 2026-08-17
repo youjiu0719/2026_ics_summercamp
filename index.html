@@ -13,7 +13,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600&family=Noto+Sans+TC:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Noto+Sans+TC:wght@400;500;700;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 
@@ -23,38 +23,21 @@
     --ink:#1E1B4B;
     --ink-soft:#5C5470;
     --ink-faint:#9B96AD;
-    --line:#EAE7F3;
+    --line:#E5E1F0;
 
-    --indigo:#4338CA;
-    --indigo-deep:#1E1B4B;
+    --indigo:#1E1B4B;
     --indigo-tint:#EEEDFB;
-    --indigo-line:#C7C2F0;
-    --indigo-shadow:rgba(67,56,202,0.32);
-
-    --gold:#EAB308;
-    --gold-deep:#92650A;
-    --gold-tint:#FEF6E0;
-    --gold-line:#F3D98B;
-    --gold-shadow:rgba(202,138,4,0.28);
+    --gold:#B8860B;
+    --gold-tint:#FBF3DD;
 
     --accent: var(--indigo);
-    --accent-deep: var(--indigo-deep);
     --accent-tint: var(--indigo-tint);
-    --accent-line: var(--indigo-line);
-    --accent-shadow: var(--indigo-shadow);
 
-    --radius:14px;
     --font-display:'Space Grotesk', 'Noto Sans TC', sans-serif;
     --font-body:'Noto Sans TC', -apple-system, sans-serif;
     --font-mono:'JetBrains Mono', monospace;
   }
-  .theme-aug{
-    --accent: var(--gold);
-    --accent-deep: var(--gold-deep);
-    --accent-tint: var(--gold-tint);
-    --accent-line: var(--gold-line);
-    --accent-shadow: var(--gold-shadow);
-  }
+  .wing-aug{ --accent: var(--gold); --accent-tint: var(--gold-tint); }
   *{box-sizing:border-box;}
   html{scroll-behavior:smooth;}
   body{
@@ -69,179 +52,153 @@
     *{animation-duration:0.01ms !important; transition-duration:0.01ms !important;}
   }
 
-  .wrap{max-width:760px; margin:0 auto; padding:0 20px; position:relative;}
+  .wrap{max-width:760px; margin:0 auto;}
 
-  /* ---------- Hero ---------- */
-  .hero{
-    padding:64px 0 40px; border-bottom:1px solid var(--line);
-    position:relative; overflow:hidden;
+  /* ---------- Masthead: full-bleed signage board ---------- */
+  .masthead{ background:var(--indigo); color:#fff; padding:44px 20px 26px; }
+  .masthead .kicker{
+    font-family:var(--font-mono); font-size:11px; letter-spacing:0.12em;
+    color:#B8AFEA; margin:0 0 16px; text-transform:uppercase;
   }
-  .hero::before{
-    content:''; position:absolute; top:-120px; right:-100px; width:320px; height:320px;
-    border-radius:50%;
-    background:radial-gradient(circle, rgba(67,56,202,0.14), transparent 70%);
-    pointer-events:none;
+  .masthead h1{
+    font-family:var(--font-display); font-weight:700;
+    font-size:clamp(30px, 6.5vw, 44px); line-height:1.2;
+    margin:0 0 6px; letter-spacing:-0.01em;
   }
-  .hero::after{
-    content:''; position:absolute; top:-40px; right:120px; width:180px; height:180px;
-    border-radius:50%;
-    background:radial-gradient(circle, rgba(234,179,8,0.12), transparent 70%);
-    pointer-events:none;
+  .masthead .zh{ font-family:var(--font-body); font-weight:700; display:block; font-size:0.62em; color:#D9D4F5; margin-top:6px; }
+  .masthead .tagline{ font-size:14px; color:#B8AFEA; line-height:1.7; max-width:460px; margin:16px 0 0; }
+
+  .meta-strip{ display:flex; border-bottom:1px solid var(--line); }
+  .meta-strip div{
+    flex:1; padding:12px 20px; font-family:var(--font-mono); font-size:11px; color:var(--ink-faint);
+    border-right:1px solid var(--line);
   }
-  .hero .eyebrow{
-    font-family:var(--font-mono); font-size:12px; letter-spacing:0.08em;
-    color:var(--indigo); margin:0 0 14px; position:relative;
+  .meta-strip div:last-child{ border-right:none; }
+  .meta-strip strong{ display:block; font-family:var(--font-display); font-size:18px; font-weight:700; color:var(--ink); margin-top:2px; }
+
+  /* ---------- Wing (month) divider ---------- */
+  .wing-head{ display:flex; align-items:center; gap:0; }
+  .wing-head .tag{
+    background:var(--accent); color:#fff; font-family:var(--font-display); font-weight:700;
+    font-size:13px; padding:9px 16px; letter-spacing:0.03em;
   }
-  .hero h1{
-    font-family:var(--font-display); font-weight:600;
-    font-size:clamp(32px, 6vw, 48px); line-height:1.15;
-    margin:0 0 16px; letter-spacing:-0.01em; position:relative;
-  }
-  .hero h1 .en{ display:block; font-size:0.55em; color:var(--ink-soft); font-weight:500; margin-top:4px; }
-  .hero p.tagline{ font-size:16px; color:var(--ink-soft); line-height:1.75; max-width:520px; margin:0 0 20px; position:relative; }
-  .hero .dates{
-    font-family:var(--font-mono); font-size:13px; color:var(--ink-soft);
-    display:inline-flex; align-items:center; gap:8px; position:relative;
-    padding:6px 14px; border:1px solid var(--line); border-radius:99px;
-    background:#fff; box-shadow:0 1px 2px rgba(30,27,75,0.04);
+  .wing-head .label{
+    padding:9px 16px; font-family:var(--font-mono); font-size:11px; color:var(--ink-faint);
+    border-bottom:1px solid var(--line); flex:1;
   }
 
-  /* ---------- Month sections ---------- */
-  .month-section{ margin-top:8px; }
-  .month-head{
-    display:flex; align-items:center; gap:10px;
-    padding:36px 0 4px;
-    position:sticky; top:0; background:var(--paper); z-index:2;
-  }
-  .month-head .dot{ width:9px; height:9px; border-radius:50%; background:var(--accent); box-shadow:0 0 0 4px var(--accent-tint); flex-shrink:0; }
-  .month-head h2{ font-family:var(--font-display); font-weight:600; font-size:22px; margin:0; }
-  .month-head .en{ font-family:var(--font-mono); font-size:12px; color:var(--ink-faint); }
-  .trail-hint{ font-size:13px; color:var(--ink-faint); margin:6px 0 0; }
-
-  /* ---------- Trail ---------- */
-  .trail{ position:relative; padding:24px 0 20px 44px; }
-  .trail::before{
-    content:''; position:absolute; left:17px; top:24px; bottom:20px; width:0;
-    border-left:1.5px dashed var(--accent-line);
-  }
-  .month-section:last-child .trail{ padding-bottom:60px; }
-  .month-section:last-child .trail::before{ bottom:60px; }
-
-  .station{
-    position:relative; margin-bottom:16px;
-    opacity:0; transform:translateY(12px);
-    transition:opacity .5s ease, transform .5s ease;
-  }
-  .station.in-view{ opacity:1; transform:translateY(0); }
-  .station-badge{
-    position:absolute; left:-44px; top:2px; width:30px; height:30px; border-radius:50%;
-    background:var(--accent-tint); border:1.5px solid var(--accent-line);
+  /* ---------- Directory entry ---------- */
+  .entry{ display:flex; border-bottom:1px solid var(--line); }
+  .entry-num{
+    width:64px; flex-shrink:0; background:var(--accent-tint);
     display:flex; align-items:center; justify-content:center;
-    font-family:var(--font-mono); font-size:11px; font-weight:500; color:var(--accent-deep);
-    transition:background .25s ease, border-color .25s ease, color .25s ease;
+    font-family:var(--font-display); font-weight:700; font-size:26px; color:var(--accent);
+    transition:background .2s ease, color .2s ease;
   }
-  .station.open .station-badge{ background:var(--accent); border-color:var(--accent); color:#fff; box-shadow:0 3px 8px var(--accent-shadow); }
-  .station-head{
-    display:flex; align-items:center; gap:12px; width:100%;
-    background:none; border:none; padding:8px; text-align:left; cursor:pointer;
-    font-family:inherit; border-radius:12px; transition:background .2s ease;
-  }
-  .station-head:hover{ background:#fff; box-shadow:0 1px 2px rgba(30,27,75,0.04), 0 6px 16px rgba(30,27,75,0.06); }
-  .station-head:focus-visible{ outline:2px solid var(--accent); outline-offset:2px; }
-  .icon-tile{
-    width:34px; height:34px; border-radius:10px; flex-shrink:0;
-    display:flex; align-items:center; justify-content:center;
-    background:linear-gradient(135deg, var(--accent), var(--accent-deep));
-    box-shadow:0 4px 10px var(--accent-shadow);
-    transition:transform .2s ease;
-  }
-  .station.open .icon-tile{ transform:scale(1.05); }
-  .station-icon{ width:17px; height:17px; color:#fff; flex-shrink:0; }
-  .station-titles{ flex:1; min-width:0; }
-  .station-titles .zh{ font-size:15px; font-weight:500; color:var(--ink); margin:0; }
-  .station-titles .en{ font-size:11px; color:var(--ink-faint); font-family:var(--font-mono); margin:1px 0 0; }
-  .station-chevron{ width:16px; height:16px; color:var(--ink-faint); flex-shrink:0; transition:transform .3s ease; }
-  .station.open .station-chevron{ transform:rotate(90deg); color:var(--accent); }
-
-  .station-panel{ overflow:hidden; max-height:0; transition:max-height .4s ease; }
-  .station.open .station-panel{ max-height:3000px; }
-  .station-panel-inner{
-    background:#fff; border-radius:14px; padding:18px 16px 20px; margin:8px 4px 4px;
-    border:1px solid var(--line);
-    box-shadow:0 1px 2px rgba(30,27,75,0.04), 0 10px 28px rgba(30,27,75,0.08);
-  }
-
-  .intro-text p{ font-size:14px; line-height:1.85; color:#3F3B54; margin:0 0 10px; }
-  .intro-text .heading{ font-size:13px; font-weight:700; color:var(--accent-deep); margin:14px 0 6px; }
-  .intro-text .heading:first-child{ margin-top:0; }
-  .intro-empty{ font-size:13px; color:var(--ink-faint); }
-
-  /* ---------- Session list ---------- */
-  .session-list{ margin-top:14px; background:var(--accent-tint); border-radius:12px; padding:5px; }
-  .session-row{ background:#fff; border-radius:9px; margin-bottom:5px; overflow:hidden; box-shadow:0 1px 3px rgba(30,27,75,0.05); }
-  .session-row:last-child{ margin-bottom:0; }
-  .session-head{
+  .entry.open .entry-num{ background:var(--accent); color:#fff; }
+  .entry-main{ flex:1; min-width:0; }
+  .entry-head{
     display:flex; align-items:center; gap:10px; width:100%;
-    background:none; border:none; padding:10px 12px; text-align:left; cursor:pointer; font-family:inherit;
+    background:none; border:none; padding:14px 16px; text-align:left; cursor:pointer; font-family:inherit;
   }
-  .session-head:hover{ background:#FAFAFC; }
-  .session-date{ font-family:var(--font-mono); font-size:11px; color:var(--accent-deep); font-weight:500; flex-shrink:0; }
-  .session-title{ flex:1; font-size:13px; color:var(--ink); }
-  .session-chevron{ width:14px; height:14px; color:var(--ink-faint); flex-shrink:0; transition:transform .3s ease; }
-  .session-row.open .session-chevron{ transform:rotate(90deg); color:var(--accent); }
-  .session-body{ overflow:hidden; max-height:0; transition:max-height .35s ease; }
-  .session-row.open .session-body{ max-height:1200px; }
-  .session-body-inner{ padding:0 12px 12px; }
-  .sessions-empty{ font-size:13px; color:var(--ink-faint); margin-top:14px; }
-  .session-intro{ font-size:13px; line-height:1.75; color:#3F3B54; margin:0 0 10px; }
+  .entry-head:hover{ background:var(--accent-tint); }
+  .entry-head:focus-visible{ outline:2px solid var(--accent); outline-offset:-2px; }
+  .entry-titles{ flex:1; min-width:0; }
+  .entry-titles .zh{ font-size:15px; font-weight:700; color:var(--ink); margin:0; }
+  .entry-titles .en{ font-size:10.5px; color:var(--ink-faint); font-family:var(--font-mono); margin:2px 0 0; }
+  .entry-arrow{ width:16px; height:16px; color:var(--ink-faint); flex-shrink:0; transition:transform .3s ease; }
+  .entry.open .entry-arrow{ transform:rotate(90deg); color:var(--accent); }
 
-  /* ---------- PDF viewer ---------- */
-  .pdf-box{ background:var(--accent-tint); border-radius:10px; padding:10px; }
-  .pdf-canvas-wrap{
-    background:#fff; border-radius:6px;
-    display:flex; align-items:center; justify-content:center; min-height:160px; overflow:hidden;
-    box-shadow:0 1px 3px rgba(30,27,75,0.06);
+  .entry-panel{ overflow:hidden; max-height:0; transition:max-height .4s ease; }
+  .entry.open .entry-panel{ max-height:4000px; }
+  .entry-panel-inner{ padding:0 16px 24px; }
+
+  .entry-quote{
+    font-size:13.5px; line-height:1.85; color:var(--ink-soft); margin:0 0 16px;
+    padding-left:12px; border-left:3px solid var(--accent);
   }
+  .entry-quote.empty{ font-style:italic; color:var(--ink-faint); }
+
+  .skill-tags{ display:flex; flex-wrap:wrap; gap:6px; margin:0 0 16px; }
+  .skill-tag{
+    font-family:var(--font-mono); font-size:10.5px; color:var(--accent);
+    background:var(--accent-tint); padding:4px 9px; letter-spacing:0.02em;
+  }
+
+  /* ---------- Session directory (nested) ---------- */
+  .session-index{ background:var(--accent-tint); }
+  .session-entry{ display:flex; border-bottom:1px solid var(--paper); }
+  .session-entry:last-child{ border-bottom:none; }
+  .session-num{
+    width:44px; flex-shrink:0; display:flex; align-items:center; justify-content:center;
+    font-family:var(--font-mono); font-size:10px; color:var(--accent); font-weight:500;
+  }
+  .session-main{ flex:1; min-width:0; }
+  .session-head{
+    display:flex; align-items:center; gap:8px; width:100%;
+    background:none; border:none; padding:11px 10px 11px 0; text-align:left; cursor:pointer; font-family:inherit;
+  }
+  .session-title{ flex:1; font-size:13px; color:var(--ink); font-weight:500; }
+  .session-head svg{ width:13px; height:13px; color:var(--ink-faint); flex-shrink:0; transition:transform .3s ease; }
+  .session-entry.open .session-head svg{ transform:rotate(90deg); color:var(--accent); }
+  .session-body{ overflow:hidden; max-height:0; transition:max-height .35s ease; }
+  .session-entry.open .session-body{ max-height:1400px; }
+  .session-body-inner{ padding:0 12px 16px; }
+  .session-intro{ font-size:13px; line-height:1.8; color:var(--ink-soft); margin:0 0 12px; }
+  .sessions-empty{ font-size:13px; color:var(--ink-faint); padding:14px 0; font-style:italic; }
+
+  /* ---------- Plate ---------- */
+  .plate{ background:#fff; border:1px solid var(--line); }
+  .plate-label{
+    display:flex; justify-content:space-between; font-family:var(--font-mono); font-size:9.5px;
+    color:var(--ink-faint); padding:7px 10px; border-bottom:1px solid var(--line); letter-spacing:0.05em; text-transform:uppercase;
+  }
+  .plate-body{ padding:12px; }
+  .pdf-canvas-wrap{ background:#FAFAFC; display:flex; align-items:center; justify-content:center; min-height:150px; overflow:hidden; }
   .pdf-canvas-wrap canvas{ max-width:100%; display:block; }
-  .pdf-controls{ display:flex; align-items:center; justify-content:space-between; margin-top:8px; padding:0 2px; }
+  .pdf-controls{ display:flex; align-items:center; justify-content:space-between; margin-top:10px; }
   .pdf-nav-btn{
-    background:#fff; border:1px solid var(--line); border-radius:8px; width:28px; height:28px;
+    background:#fff; border:1px solid var(--line); width:26px; height:26px;
     display:flex; align-items:center; justify-content:center; cursor:pointer; color:var(--ink-soft);
   }
   .pdf-nav-btn:hover:not(:disabled){ border-color:var(--accent); color:var(--accent); }
-  .pdf-nav-btn:disabled{ opacity:0.35; cursor:default; }
-  .pdf-page-label{ font-family:var(--font-mono); font-size:11px; color:var(--ink-faint); }
-  .pdf-placeholder{ font-size:13px; color:var(--ink-faint); text-align:center; padding:20px 0; }
+  .pdf-nav-btn:disabled{ opacity:0.3; cursor:default; }
+  .pdf-page-label{ font-family:var(--font-mono); font-size:10.5px; color:var(--ink-faint); }
+  .pdf-placeholder{ font-size:12.5px; color:var(--ink-faint); text-align:center; padding:20px 0; font-style:italic; }
 
-  /* ---------- Photos ---------- */
-  .photos-label{ font-size:11px; color:var(--ink-faint); margin:12px 0 8px; }
-  .photos-grid{ display:grid; grid-template-columns:repeat(3, 1fr); gap:6px; }
-  .photos-grid a{ display:block; aspect-ratio:1; border-radius:8px; overflow:hidden; background:var(--accent-tint); box-shadow:0 1px 3px rgba(30,27,75,0.06); }
+  .plate-photos{ margin-top:12px; }
+  .photos-grid{ display:grid; grid-template-columns:repeat(3, 1fr); gap:1px; background:var(--line); }
+  .photos-grid a{ display:block; aspect-ratio:1; overflow:hidden; background:var(--accent-tint); }
   .photos-grid img{ width:100%; height:100%; object-fit:cover; display:block; transition:transform .3s ease; }
-  .photos-grid a:hover img{ transform:scale(1.06); }
+  .photos-grid a:hover img{ transform:scale(1.05); }
 
-  footer{ border-top:1px solid var(--line); padding:28px 0 60px; }
-  footer p{ font-size:12px; color:var(--ink-faint); margin:0; }
+  footer{ background:var(--indigo); padding:20px; }
+  footer p{ font-family:var(--font-mono); font-size:11px; color:#B8AFEA; margin:0; letter-spacing:0.03em; text-align:center; }
 
   @media (max-width:480px){
-    .hero{ padding:44px 0 32px; }
-    .trail{ padding-left:38px; }
-    .trail::before{ left:14px; }
-    .station-badge{ left:-38px; width:26px; height:26px; font-size:10px; }
+    .entry-num{ width:52px; font-size:21px; }
+    .meta-strip div{ padding:10px 12px; }
   }
 </style>
 </head>
 <body>
 
-<div class="wrap">
-  <header class="hero">
-    <p class="eyebrow">DA LI EDUCATIONAL CENTER · 2026 SUMMER</p>
-    <h1>Creator Academy<span class="en">創作者學院成果展</span></h1>
-    <p class="tagline">從畫布到博物館，從廚房到 AI 音樂——這個夏天，孩子們走過了九段不同的探索旅程。</p>
-    <span class="dates">7.6 — 8.31 · 9 weeks</span>
-  </header>
+<header class="masthead">
+  <div class="wrap">
+    <p class="kicker">Da Li Educational Center — 2026 Summer</p>
+    <h1>Creator Academy<span class="zh">創作者學院成果展</span></h1>
+    <p class="tagline">從畫布到博物館，從廚房到 AI 音樂——這個夏天，孩子們走過了九段不同的探索旅程。有人第一次拿起套索工具修圖，有人蹲在博物館展櫃前研究一件文物的來歷，有人在灶台前學會怎麼捏出一顆完美的飯糰。九堂課、十五段場次記錄，是這群小小創作者交出的第一份作品集。</p>
+  </div>
+</header>
 
-  <div id="months"></div>
+<div class="wrap">
+  <div class="meta-strip">
+    <div>COURSES<strong>9</strong></div>
+    <div>WEEKS<strong>9</strong></div>
+    <div>PERIOD<strong>7–8月</strong></div>
+  </div>
+
+  <div id="wings"></div>
 
   <footer>
     <p>Da Li Educational Center · I.C.S. Creator Academy 2026</p>
@@ -254,41 +211,15 @@
     pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
   }
 
-  const ICONS = {
-    'device-ipad': '<rect x="6" y="3" width="12" height="18" rx="2"/><circle cx="12" cy="18" r="0.6" fill="currentColor" stroke="none"/>',
-    'building-monument': '<path d="M4 21h16"/><path d="M4 21V10"/><path d="M20 21V10"/><path d="M2 10l10-6 10 6"/><path d="M8 21v-7"/><path d="M12 21v-7"/><path d="M16 21v-7"/>',
-    'chef-hat': '<path d="M8 21h8"/><path d="M9 21v-6"/><path d="M15 21v-6"/><path d="M6 11a4 4 0 0 1 3-6 4 4 0 0 1 3-2 4 4 0 0 1 3 2 4 4 0 0 1 3 6 3 3 0 0 1-3 4H9a3 3 0 0 1-3-4z"/>',
-    'palette': '<path d="M12 3a9 9 0 1 0 9 9c0-1-1-2-2-2h-2a2 2 0 0 1-2-2c0-1 .5-1.5 1-2a2 2 0 0 0-1-3.6A9 9 0 0 0 12 3z"/><circle cx="8.5" cy="10.5" r="0.8" fill="currentColor" stroke="none"/><circle cx="7.5" cy="14.5" r="0.8" fill="currentColor" stroke="none"/><circle cx="11" cy="16.5" r="0.8" fill="currentColor" stroke="none"/>',
-    'cpu': '<rect x="6" y="6" width="12" height="12" rx="1"/><rect x="9" y="9" width="6" height="6" rx="1"/><line x1="12" y1="2" x2="12" y2="6"/><line x1="12" y1="18" x2="12" y2="22"/><line x1="2" y1="12" x2="6" y2="12"/><line x1="18" y1="12" x2="22" y2="12"/>',
-    'plant-2': '<path d="M12 21v-8"/><path d="M12 13c-4 0-7-3-7-7 4 0 7 3 7 7z"/><path d="M12 9c3-1 5-3 5-6-3 0-5 2-6 5"/>',
-    'language': '<path d="M4 8a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2a4 4 0 0 1-4 4H9l-3 3v-3a4 4 0 0 1-2-4V8z"/><circle cx="12" cy="9" r="0.6" fill="currentColor" stroke="none"/>',
-    'swimming': '<path d="M3 17c1.5 1 3 1 4.5 0s3-1 4.5 0 3 1 4.5 0 3-1 4.5 0"/><path d="M3 13c1.5 1 3 1 4.5 0s3-1 4.5 0 3 1 4.5 0 3-1 4.5 0"/><circle cx="17" cy="6" r="1.5"/><path d="M5 10l5-2 3 2-2 3"/>',
-    'bus': '<rect x="3" y="6" width="18" height="10" rx="2"/><path d="M3 11h18"/><circle cx="7" cy="18" r="1.5"/><circle cx="17" cy="18" r="1.5"/>'
-  };
+  const wingsEl = document.getElementById('wings');
+  const sessionState = {};
+  const wingLabel = { jul: 'WING A — JULY', aug: 'WING B — AUGUST' };
 
-  function iconSvg(key){
-    const inner = ICONS[key] || '<circle cx="12" cy="12" r="8"/>';
-    return `<svg class="station-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${inner}</svg>`;
+  function arrowIcon(cls){
+    return `<svg class="${cls}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>`;
   }
-  function chevronSvg(cls){
-    return `<svg class="${cls}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>`;
-  }
-
-  const monthsEl = document.getElementById('months');
-  const sessionState = {}; // keyed by `${date}_${slug}`
-
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting){
-        entry.target.classList.add('in-view');
-        observer.unobserve(entry.target);
-      }
-    });
-  }, { threshold: 0.15 });
 
   MONTHS.forEach(month => {
-    // 固定型課程：依 months 欄位判斷是否出現
-    // 場次型課程：只要該月份至少有一個場次就出現，且面板只列該月份的場次
     const coursesInMonth = COURSES
       .map(course => {
         if (course.type === 'fixed') {
@@ -301,116 +232,118 @@
 
     if (!coursesInMonth.length) return;
 
-    const section = document.createElement('section');
-    section.className = `month-section theme-${month.id}`;
-    section.innerHTML = `
-      <div class="month-head">
-        <span class="dot"></span>
-        <h2>${month.zh}</h2>
-        <span class="en">${month.en}</span>
+    const wing = document.createElement('section');
+    wing.className = `wing-${month.id}`;
+    wing.innerHTML = `
+      <div class="wing-head">
+        <span class="tag">${wingLabel[month.id] || month.zh}</span>
+        <span class="label">${month.zh} · ${coursesInMonth.length} 堂課</span>
       </div>
-      <p class="trail-hint">向下捲動，點開每一站查看課程內容</p>
-      <div class="trail"></div>
     `;
-    monthsEl.appendChild(section);
-
-    const trailEl = section.querySelector('.trail');
+    wingsEl.appendChild(wing);
 
     coursesInMonth.forEach(({ course, sessions }, idx) => {
       const num = String(idx + 1).padStart(2, '0');
-      const station = document.createElement('div');
-      station.className = 'station';
-      station.innerHTML = `
-        <div class="station-badge">${num}</div>
-        <button class="station-head" aria-expanded="false">
-          <span class="icon-tile">${iconSvg(course.icon)}</span>
-          <span class="station-titles">
-            <p class="zh">${course.zh}</p>
-            <p class="en">${course.en}</p>
-          </span>
-          ${chevronSvg('station-chevron')}
-        </button>
-        <div class="station-panel">
-          <div class="station-panel-inner">
-            <div class="intro-text"></div>
-            <div class="sessions-slot"></div>
+      const entry = document.createElement('div');
+      entry.className = 'entry';
+      entry.innerHTML = `
+        <div class="entry-num">${num}</div>
+        <div class="entry-main">
+          <button class="entry-head" aria-expanded="false">
+            <span class="entry-titles">
+              <p class="zh">${course.zh}</p>
+              <p class="en">${course.en}</p>
+            </span>
+            ${arrowIcon('entry-arrow')}
+          </button>
+          <div class="entry-panel">
+            <div class="entry-panel-inner">
+              <div class="skills-slot"></div>
+              <div class="intro-slot"></div>
+              <div class="sessions-slot"></div>
+            </div>
           </div>
         </div>
       `;
-      trailEl.appendChild(station);
+      wing.appendChild(entry);
 
-      const head = station.querySelector('.station-head');
-      let stationLoaded = false;
+      const head = entry.querySelector('.entry-head');
+      let loaded = false;
       head.addEventListener('click', () => {
-        const isOpen = station.classList.contains('open');
-        trailEl.querySelectorAll('.station.open').forEach(s => {
-          if (s !== station){
-            s.classList.remove('open');
-            s.querySelector('.station-head').setAttribute('aria-expanded', 'false');
-          }
-        });
-        station.classList.toggle('open', !isOpen);
+        const isOpen = entry.classList.contains('open');
+        entry.classList.toggle('open', !isOpen);
         head.setAttribute('aria-expanded', String(!isOpen));
-
-        if (!isOpen && !stationLoaded){
-          stationLoaded = true;
-          renderIntro(course, station);
-          if (course.type === 'sessions') renderSessionList(course, sessions, station);
+        if (!isOpen && !loaded){
+          loaded = true;
+          renderSkills(course, entry);
+          renderIntro(course, entry);
+          if (course.type === 'sessions') renderSessionIndex(course, sessions, entry);
         }
       });
-
-      observer.observe(station);
     });
   });
 
-  function renderIntro(course, station){
-    const introEl = station.querySelector('.intro-text');
-    const blocks = parseIntroText(course.intro);
-    introEl.innerHTML = blocks.map(b =>
-      b.type === 'heading'
-        ? `<p class="heading">${escapeHtml(b.text)}</p>`
-        : `<p>${escapeHtml(b.text)}</p>`
-    ).join('') || '<p class="intro-empty">簡介準備中。</p>';
+  function renderSkills(course, entry){
+    const slot = entry.querySelector('.skills-slot');
+    if (!course.skills || !course.skills.length){ slot.innerHTML = ''; return; }
+    slot.innerHTML = `<div class="skill-tags">${course.skills.map(s => `<span class="skill-tag">${escapeHtml(s)}</span>`).join('')}</div>`;
   }
 
-  function renderSessionList(course, sessions, station){
-    const slot = station.querySelector('.sessions-slot');
+  function renderIntro(course, entry){
+    const slot = entry.querySelector('.intro-slot');
+    const blocks = parseIntroText(course.intro).filter(b => b.type === 'para');
+    if (!blocks.length){
+      slot.innerHTML = '<p class="entry-quote empty">簡介準備中。</p>';
+      return;
+    }
+    slot.innerHTML = blocks.map(b => `<p class="entry-quote">${escapeHtml(b.text)}</p>`).join('');
+  }
+
+  function renderSessionIndex(course, sessions, entry){
+    const slot = entry.querySelector('.sessions-slot');
     if (!sessions.length){
       slot.innerHTML = '<p class="sessions-empty">場次資料準備中。</p>';
       return;
     }
     const list = document.createElement('div');
-    list.className = 'session-list';
+    list.className = 'session-index';
     sessions.forEach(session => {
       const key = `${session.date}_${session.slug}`;
       sessionState[key] = { loaded:false, pdfDoc:null, page:1, pageCount:0, rendering:false };
 
       const row = document.createElement('div');
-      row.className = 'session-row';
+      row.className = 'session-entry';
       row.innerHTML = `
-        <button class="session-head" aria-expanded="false">
-          <span class="session-date">${formatSessionDate(session.date)}</span>
-          <span class="session-title">${escapeHtml(session.title)}</span>
-          ${chevronSvg('session-chevron')}
-        </button>
-        <div class="session-body">
-          <div class="session-body-inner">
-            ${session.intro ? `<p class="session-intro">${escapeHtml(session.intro)}</p>` : ''}
-            <div class="pdf-box">
-              <div class="pdf-canvas-wrap"><canvas></canvas></div>
-              <div class="pdf-controls">
-                <button class="pdf-nav-btn pdf-prev" aria-label="上一頁" disabled>
-                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg>
-                </button>
-                <span class="pdf-page-label">—</span>
-                <button class="pdf-nav-btn pdf-next" aria-label="下一頁" disabled>
-                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>
-                </button>
+        <div class="session-num">${formatSessionDate(session.date)}</div>
+        <div class="session-main">
+          <button class="session-head" aria-expanded="false">
+            <span class="session-title">${escapeHtml(session.title)}</span>
+            ${arrowIcon('')}
+          </button>
+          <div class="session-body">
+            <div class="session-body-inner">
+              ${session.intro ? `<p class="session-intro">${escapeHtml(session.intro)}</p>` : ''}
+              <div class="plate">
+                <div class="plate-label"><span>Slides</span><span>${formatSessionDate(session.date)}</span></div>
+                <div class="plate-body">
+                  <div class="pdf-canvas-wrap"><canvas></canvas></div>
+                  <div class="pdf-controls">
+                    <button class="pdf-nav-btn pdf-prev" aria-label="上一頁" disabled>
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg>
+                    </button>
+                    <span class="pdf-page-label">—</span>
+                    <button class="pdf-nav-btn pdf-next" aria-label="下一頁" disabled>
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>
+                    </button>
+                  </div>
+                </div>
               </div>
-            </div>
-            <div class="photos-section" hidden>
-              <p class="photos-label">花絮照片</p>
-              <div class="photos-grid"></div>
+              <div class="plate-photos photos-section" hidden>
+                <div class="plate">
+                  <div class="plate-label"><span>Photos</span><span>${formatSessionDate(session.date)}</span></div>
+                  <div class="plate-body"><div class="photos-grid"></div></div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -480,7 +413,7 @@
     const wrap = row.querySelector('.pdf-canvas-wrap');
     const label = row.querySelector('.pdf-page-label');
     const page = await s.pdfDoc.getPage(s.page);
-    const containerWidth = wrap.clientWidth || 280;
+    const containerWidth = wrap.clientWidth || 260;
     const baseViewport = page.getViewport({ scale: 1 });
     const scale = containerWidth / baseViewport.width;
     const viewport = page.getViewport({ scale });
