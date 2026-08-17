@@ -55,7 +55,18 @@
   .wrap{max-width:760px; margin:0 auto;}
 
   /* ---------- Masthead: full-bleed signage board ---------- */
-  .masthead{ background:var(--indigo); color:#fff; padding:44px 20px 26px; }
+  .masthead{ background:var(--indigo); color:#fff; padding:44px 20px 26px; position:relative; overflow:hidden; }
+  .masthead::before{
+    content:''; position:absolute; inset:0;
+    background-image:repeating-linear-gradient(135deg, rgba(255,255,255,0.05) 0 2px, transparent 2px 14px);
+    pointer-events:none;
+  }
+  .masthead::after{
+    content:''; position:absolute; right:-60px; top:-60px; width:220px; height:220px; border-radius:50%;
+    background:radial-gradient(circle, rgba(184,134,11,0.25), transparent 70%);
+    pointer-events:none;
+  }
+  .masthead .wrap{ position:relative; z-index:1; }
   .masthead .kicker{
     font-family:var(--font-mono); font-size:11px; letter-spacing:0.12em;
     color:#B8AFEA; margin:0 0 16px; text-transform:uppercase;
@@ -67,6 +78,33 @@
   }
   .masthead .zh{ font-family:var(--font-body); font-weight:700; display:block; font-size:0.62em; color:#D9D4F5; margin-top:6px; }
   .masthead .tagline{ font-size:14px; color:#B8AFEA; line-height:1.7; max-width:460px; margin:16px 0 0; }
+  .masthead .motto{
+    font-family:var(--font-display); font-weight:600; font-size:14px; color:#fff;
+    margin:22px 0 0; letter-spacing:0.02em;
+  }
+  .masthead .motto span{
+    display:block; font-family:var(--font-body); font-weight:400; font-size:12.5px;
+    color:#B8AFEA; margin-top:4px; letter-spacing:0;
+  }
+  .cta-btn{
+    display:inline-flex; flex-direction:column; align-items:flex-start; gap:1px;
+    background:var(--gold); color:var(--indigo); text-decoration:none;
+    padding:11px 18px; margin-top:22px; font-family:var(--font-display); font-weight:700; font-size:13px;
+    transition:transform .2s ease;
+  }
+  .cta-btn:hover{ transform:translateY(-1px); }
+  .cta-btn span{ font-family:var(--font-mono); font-weight:400; font-size:9.5px; letter-spacing:0.04em; }
+
+  .section-heading{
+    font-family:var(--font-display); font-weight:700; font-size:16px; color:var(--ink); margin:0 0 12px;
+  }
+  .program-intro, .closing-note{ padding:32px 0; border-bottom:1px solid var(--line); }
+  .program-intro p:not(.section-heading), .closing-note p:not(.section-heading){
+    font-size:13.5px; line-height:1.85; color:var(--ink-soft); margin:0 0 10px; max-width:560px;
+  }
+  .closing-note{ border-bottom:none; }
+
+  .wing-desc{ font-size:13.5px; line-height:1.85; color:var(--ink-soft); padding:14px 16px 22px; margin:0; }
 
   .meta-strip{ display:flex; border-bottom:1px solid var(--line); }
   .meta-strip div{
@@ -81,7 +119,9 @@
   .wing-head .tag{
     background:var(--accent); color:#fff; font-family:var(--font-display); font-weight:700;
     font-size:13px; padding:9px 16px; letter-spacing:0.03em;
+    display:flex; align-items:center; gap:6px;
   }
+  .wing-head .tag svg{ width:13px; height:13px; }
   .wing-head .label{
     padding:9px 16px; font-family:var(--font-mono); font-size:11px; color:var(--ink-faint);
     border-bottom:1px solid var(--line); flex:1;
@@ -90,11 +130,19 @@
   /* ---------- Directory entry ---------- */
   .entry{ display:flex; border-bottom:1px solid var(--line); }
   .entry-num{
-    width:64px; flex-shrink:0; background:var(--accent-tint);
-    display:flex; align-items:center; justify-content:center;
-    font-family:var(--font-display); font-weight:700; font-size:26px; color:var(--accent);
+    width:72px; flex-shrink:0; background:var(--accent-tint);
+    display:flex; flex-direction:column; align-items:center; justify-content:center; gap:5px;
+    font-family:var(--font-display); font-weight:700; font-size:19px; color:var(--accent);
     transition:background .2s ease, color .2s ease;
+    position:relative; overflow:hidden;
   }
+  .entry-num::before{
+    content:''; position:absolute; inset:0;
+    background-image:repeating-linear-gradient(135deg, currentColor 0 1px, transparent 1px 9px);
+    opacity:0.08; pointer-events:none;
+  }
+  .entry-num svg{ width:19px; height:19px; position:relative; }
+  .entry-num .num-label{ position:relative; letter-spacing:0.02em; }
   .entry.open .entry-num{ background:var(--accent); color:#fff; }
   .entry-main{ flex:1; min-width:0; }
   .entry-head{
@@ -118,6 +166,10 @@
     padding-left:12px; border-left:3px solid var(--accent);
   }
   .entry-quote.empty{ font-style:italic; color:var(--ink-faint); }
+  .entry-quote-heading{
+    font-family:var(--font-display); font-weight:700; font-size:14.5px; color:var(--accent);
+    margin:0 0 8px; padding-left:12px; border-left:3px solid var(--accent);
+  }
 
   .skill-tags{ display:flex; flex-wrap:wrap; gap:6px; margin:0 0 16px; }
   .skill-tag{
@@ -132,7 +184,14 @@
   .session-num{
     width:44px; flex-shrink:0; display:flex; align-items:center; justify-content:center;
     font-family:var(--font-mono); font-size:10px; color:var(--accent); font-weight:500;
+    position:relative; overflow:hidden;
   }
+  .session-num::before{
+    content:''; position:absolute; inset:0;
+    background-image:repeating-linear-gradient(135deg, currentColor 0 1px, transparent 1px 8px);
+    opacity:0.06; pointer-events:none;
+  }
+  .session-num span{ position:relative; }
   .session-main{ flex:1; min-width:0; }
   .session-head{
     display:flex; align-items:center; gap:8px; width:100%;
@@ -165,6 +224,9 @@
   .pdf-nav-btn:disabled{ opacity:0.3; cursor:default; }
   .pdf-page-label{ font-family:var(--font-mono); font-size:10.5px; color:var(--ink-faint); }
   .pdf-placeholder{ font-size:12.5px; color:var(--ink-faint); text-align:center; padding:20px 0; font-style:italic; }
+  .pdf-placeholder span{ display:block; font-style:normal; font-family:var(--font-mono); font-size:10px; margin-top:4px; }
+  .photos-empty{ font-size:12.5px; color:var(--ink-faint); text-align:center; padding:20px 0; font-style:italic; margin:0; }
+  .photos-empty span{ display:block; font-style:normal; font-family:var(--font-mono); font-size:10px; margin-top:4px; }
 
   .plate-photos{ margin-top:12px; }
   .photos-grid{ display:grid; grid-template-columns:repeat(3, 1fr); gap:1px; background:var(--line); }
@@ -186,22 +248,37 @@
 <header class="masthead">
   <div class="wrap">
     <p class="kicker">Da Li Educational Center — 2026 Summer</p>
-    <h1>Creator Academy<span class="zh">創作者學院成果展</span></h1>
-    <p class="tagline">從畫布到博物館，從廚房到 AI 音樂——這個夏天，孩子們走過了九段不同的探索旅程。有人第一次拿起套索工具修圖，有人蹲在博物館展櫃前研究一件文物的來歷，有人在灶台前學會怎麼捏出一顆完美的飯糰。九堂課、十五段場次記錄，是這群小小創作者交出的第一份作品集。</p>
+    <h1>Creator Academy<span class="zh">2026 夏日探索成果展</span></h1>
+    <p class="tagline">一個夏天，多種不同的學習體驗。從數位創作、博物館探索到料理、自然閱讀與人工智慧，孩子們透過課程、討論及簡單的實作，接觸不同的主題，也留下這個夏天的學習紀錄。</p>
+    <p class="motto">Explore. Create. Share.<span>在探索中學習，在體驗中發現。</span></p>
+    <a href="#program-intro" class="cta-btn">開始探索<span>Explore the Journey</span></a>
   </div>
 </header>
 
 <div class="wrap">
   <div class="meta-strip">
-    <div>COURSES<strong>9</strong></div>
     <div>WEEKS<strong>9</strong></div>
     <div>PERIOD<strong>7–8月</strong></div>
   </div>
 
+  <section id="program-intro" class="program-intro">
+    <p class="section-heading">這個夏天，我們一起嘗試了什麼？</p>
+    <p>今年夏天，Creator Academy 安排了數位創作、博物館與文物、料理、黏土、AI、日文、游泳及素養閱讀等不同課程。</p>
+    <p>孩子們從簡單的觀察、閱讀與操作開始，接觸平常較少體驗的主題。這個網站整理了課程使用的投影片與活動照片，記錄孩子們參與課程的過程。</p>
+  </section>
+
   <div id="wings"></div>
 
+  <section class="closing-note">
+    <p class="section-heading">記錄這個夏天的學習</p>
+    <p>這些投影片、照片與作品，記錄了孩子們在暑假期間接觸過的不同課程。</p>
+    <p>有些活動是第一次嘗試，有些內容只是初步認識，但每一次參與、操作與討論，都是這段夏日學習旅程的一部分。</p>
+  </section>
+
   <footer>
-    <p>Da Li Educational Center · I.C.S. Creator Academy 2026</p>
+    <p>謝謝孩子們願意參與每一次課程，也謝謝家長陪伴我們完成這段夏日學習旅程。</p>
+    <p>Da Li Educational Center</p>
+    <p>Creator Academy · Summer 2026</p>
   </footer>
 </div>
 
@@ -214,6 +291,32 @@
   const wingsEl = document.getElementById('wings');
   const sessionState = {};
   const wingLabel = { jul: 'WING A — JULY', aug: 'WING B — AUGUST' };
+  const wingDesc = {
+    jul: {
+      title: 'JULY｜開始探索',
+      body: `七月，我們從基礎認識與簡單體驗開始。孩子們初步接觸iPad數位創作，也透過博物館、文物、料理與戶外教學認識不同主題。每一堂課不一定要完成很厲害的作品，重要的是願意嘗試，並從過程中多認識一件新的事物。`
+    },
+    aug: {
+      title: 'AUGUST｜繼續嘗試',
+      body: `八月延續前一個月的學習，加入角色設計、色彩搭配、標本收藏、黏土與AI音樂等主題。孩子們透過簡單的操作、閱讀和討論，繼續嘗試不同的工具與表達方式，並整理這個暑假的學習紀錄。`
+    }
+  };
+
+  const ICONS = {
+    'device-ipad': '<rect x="6" y="3" width="12" height="18" rx="2"/><circle cx="12" cy="18" r="0.6" fill="currentColor" stroke="none"/>',
+    'building-monument': '<path d="M4 21h16"/><path d="M4 21V10"/><path d="M20 21V10"/><path d="M2 10l10-6 10 6"/><path d="M8 21v-7"/><path d="M12 21v-7"/><path d="M16 21v-7"/>',
+    'chef-hat': '<path d="M8 21h8"/><path d="M9 21v-6"/><path d="M15 21v-6"/><path d="M6 11a4 4 0 0 1 3-6 4 4 0 0 1 3-2 4 4 0 0 1 3 2 4 4 0 0 1 3 6 3 3 0 0 1-3 4H9a3 3 0 0 1-3-4z"/>',
+    'palette': '<path d="M12 3a9 9 0 1 0 9 9c0-1-1-2-2-2h-2a2 2 0 0 1-2-2c0-1 .5-1.5 1-2a2 2 0 0 0-1-3.6A9 9 0 0 0 12 3z"/><circle cx="8.5" cy="10.5" r="0.8" fill="currentColor" stroke="none"/><circle cx="7.5" cy="14.5" r="0.8" fill="currentColor" stroke="none"/><circle cx="11" cy="16.5" r="0.8" fill="currentColor" stroke="none"/>',
+    'cpu': '<rect x="6" y="6" width="12" height="12" rx="1"/><rect x="9" y="9" width="6" height="6" rx="1"/><line x1="12" y1="2" x2="12" y2="6"/><line x1="12" y1="18" x2="12" y2="22"/><line x1="2" y1="12" x2="6" y2="12"/><line x1="18" y1="12" x2="22" y2="12"/>',
+    'plant-2': '<path d="M12 21v-8"/><path d="M12 13c-4 0-7-3-7-7 4 0 7 3 7 7z"/><path d="M12 9c3-1 5-3 5-6-3 0-5 2-6 5"/>',
+    'language': '<path d="M4 8a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2a4 4 0 0 1-4 4H9l-3 3v-3a4 4 0 0 1-2-4V8z"/><circle cx="12" cy="9" r="0.6" fill="currentColor" stroke="none"/>',
+    'swimming': '<path d="M3 17c1.5 1 3 1 4.5 0s3-1 4.5 0 3 1 4.5 0 3-1 4.5 0"/><path d="M3 13c1.5 1 3 1 4.5 0s3-1 4.5 0 3 1 4.5 0 3-1 4.5 0"/><circle cx="17" cy="6" r="1.5"/><path d="M5 10l5-2 3 2-2 3"/>',
+    'bus': '<rect x="3" y="6" width="18" height="10" rx="2"/><path d="M3 11h18"/><circle cx="7" cy="18" r="1.5"/><circle cx="17" cy="18" r="1.5"/>'
+  };
+  function iconSvg(key){
+    const inner = ICONS[key] || '<circle cx="12" cy="12" r="8"/>';
+    return `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${inner}</svg>`;
+  }
 
   function arrowIcon(cls){
     return `<svg class="${cls}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>`;
@@ -236,9 +339,10 @@
     wing.className = `wing-${month.id}`;
     wing.innerHTML = `
       <div class="wing-head">
-        <span class="tag">${wingLabel[month.id] || month.zh}</span>
+        <span class="tag"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v6M12 22v-6M2 12h6M22 12h-6"/></svg>${wingLabel[month.id] || month.zh}</span>
         <span class="label">${month.zh} · ${coursesInMonth.length} 堂課</span>
       </div>
+      <p class="wing-desc"><strong>${(wingDesc[month.id] || {}).title || ''}</strong><br>${(wingDesc[month.id] || {}).body || ''}</p>
     `;
     wingsEl.appendChild(wing);
 
@@ -247,7 +351,7 @@
       const entry = document.createElement('div');
       entry.className = 'entry';
       entry.innerHTML = `
-        <div class="entry-num">${num}</div>
+        <div class="entry-num">${iconSvg(course.icon)}<span class="num-label">${num}</span></div>
         <div class="entry-main">
           <button class="entry-head" aria-expanded="false">
             <span class="entry-titles">
@@ -291,18 +395,22 @@
 
   function renderIntro(course, entry){
     const slot = entry.querySelector('.intro-slot');
-    const blocks = parseIntroText(course.intro).filter(b => b.type === 'para');
+    const blocks = parseIntroText(course.intro);
     if (!blocks.length){
-      slot.innerHTML = '<p class="entry-quote empty">簡介準備中。</p>';
+      slot.innerHTML = '<p class="entry-quote empty">此課程簡介尚未收錄。</p>';
       return;
     }
-    slot.innerHTML = blocks.map(b => `<p class="entry-quote">${escapeHtml(b.text)}</p>`).join('');
+    slot.innerHTML = blocks.map(b =>
+      b.type === 'heading'
+        ? `<p class="entry-quote-heading">${escapeHtml(b.text)}</p>`
+        : `<p class="entry-quote">${escapeHtml(b.text)}</p>`
+    ).join('');
   }
 
   function renderSessionIndex(course, sessions, entry){
     const slot = entry.querySelector('.sessions-slot');
     if (!sessions.length){
-      slot.innerHTML = '<p class="sessions-empty">場次資料準備中。</p>';
+      slot.innerHTML = '<p class="sessions-empty">此課程的場次紀錄尚在收整中。</p>';
       return;
     }
     const list = document.createElement('div');
@@ -314,7 +422,7 @@
       const row = document.createElement('div');
       row.className = 'session-entry';
       row.innerHTML = `
-        <div class="session-num">${formatSessionDate(session.date)}</div>
+        <div class="session-num"><span>${formatSessionDate(session.date)}</span></div>
         <div class="session-main">
           <button class="session-head" aria-expanded="false">
             <span class="session-title">${escapeHtml(session.title)}</span>
@@ -324,7 +432,7 @@
             <div class="session-body-inner">
               ${session.intro ? `<p class="session-intro">${escapeHtml(session.intro)}</p>` : ''}
               <div class="plate">
-                <div class="plate-label"><span>Slides</span><span>${formatSessionDate(session.date)}</span></div>
+                <div class="plate-label"><span>查看課程投影片</span><span>View the Slides</span></div>
                 <div class="plate-body">
                   <div class="pdf-canvas-wrap"><canvas></canvas></div>
                   <div class="pdf-controls">
@@ -338,10 +446,10 @@
                   </div>
                 </div>
               </div>
-              <div class="plate-photos photos-section" hidden>
+              <div class="plate-photos photos-section">
                 <div class="plate">
-                  <div class="plate-label"><span>Photos</span><span>${formatSessionDate(session.date)}</span></div>
-                  <div class="plate-body"><div class="photos-grid"></div></div>
+                  <div class="plate-label"><span>瀏覽活動照片</span><span>View the Moments</span></div>
+                  <div class="plate-body"><div class="photos-grid"></div><p class="photos-empty" hidden>活動照片整理中<span>Photos coming soon</span></p></div>
                 </div>
               </div>
             </div>
@@ -392,7 +500,7 @@
       try{
         doc = await pdfjsLib.getDocument(sessionPdfUrlFallback(session.date, session.slug)).promise;
       }catch(e2){
-        wrap.innerHTML = '<p class="pdf-placeholder">投影片準備中。</p>';
+      wrap.innerHTML = '<p class="pdf-placeholder">課程投影片整理中<span>Slides coming soon</span></p>';
         label.textContent = '—';
         return;
       }
@@ -438,14 +546,17 @@
 
   async function loadSessionPhotos(session, row){
     const files = await listSessionPhotoFiles(session.date, session.slug);
-    if (!files.length) return;
-    const section = row.querySelector('.photos-section');
     const grid = row.querySelector('.photos-grid');
+    const empty = row.querySelector('.photos-empty');
+    if (!files.length){
+      empty.hidden = false;
+      grid.hidden = true;
+      return;
+    }
     grid.innerHTML = files.map(name => {
       const url = sessionPhotoUrl(session.date, session.slug, name);
       return `<a href="${url}" target="_blank" rel="noopener"><img src="${url}" alt="${escapeHtml(session.title)} 照片" loading="lazy"></a>`;
     }).join('');
-    section.hidden = false;
   }
 
   function escapeHtml(str){
