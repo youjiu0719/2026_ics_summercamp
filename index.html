@@ -277,10 +277,6 @@
   .pdf-nav-btn:hover:not(:disabled){ border-color:var(--accent); color:var(--accent); }
   .pdf-nav-btn:disabled{ opacity:0.3; cursor:default; }
   .pdf-page-label{ font-family:var(--font-mono); font-size:10.5px; color:var(--ink-faint); }
-  .pdf-placeholder{ font-size:12.5px; color:var(--ink-faint); text-align:center; padding:20px 0; font-style:italic; }
-  .pdf-placeholder span{ display:block; font-style:normal; font-family:var(--font-mono); font-size:10px; margin-top:4px; }
-  .photos-empty{ font-size:12.5px; color:var(--ink-faint); text-align:center; padding:20px 0; font-style:italic; margin:0; }
-  .photos-empty span{ display:block; font-style:normal; font-family:var(--font-mono); font-size:10px; margin-top:4px; }
 
   .plate-photos{ margin-top:12px; }
   .photos-grid{ display:grid; grid-template-columns:repeat(4, 1fr); gap:2px; background:var(--line); }
@@ -290,13 +286,13 @@
   .works-grid{ display:grid; grid-template-columns:repeat(3, 1fr); gap:8px; }
   .works-grid a{ display:block; text-decoration:none; }
   .works-grid img{
-    width:100%; aspect-ratio:1; object-fit:cover; display:block; border:1px solid var(--line);
+    width:100%; aspect-ratio:1; object-fit:cover; object-position:center; display:block; border:1px solid var(--line);
     transition:transform .3s ease;
   }
   .works-grid a:hover img{ transform:scale(1.03); }
   .work-caption{
     display:block; font-family:var(--font-mono); font-size:10px; color:var(--ink-soft);
-    margin-top:5px; text-align:center;
+    margin-top:5px; text-align:center; text-transform:uppercase; letter-spacing:0.03em;
   }
   .photos-grid a:hover img{ transform:scale(1.05); }
 
@@ -569,14 +565,6 @@
 
   async function renderFixedPhotos(course, entry){
     const slot = entry.querySelector('.fixed-photos-slot');
-    slot.innerHTML = `
-      <div class="plate-photos">
-        <div class="plate">
-          <div class="plate-label"><span>瀏覽活動照片</span><span>View the Moments</span></div>
-          <div class="plate-body"><div class="photos-grid"></div><p class="photos-empty" hidden>活動照片整理中<span>Photos coming soon</span></p></div>
-        </div>
-      </div>
-    `;
     let allFiles = [];
     if (course.photoFolder){
       allFiles = await listPhotosInFolder(course.photoFolder);
@@ -586,13 +574,16 @@
         allFiles.push(...files);
       }
     }
+    if (!allFiles.length){ slot.innerHTML = ''; return; }
+    slot.innerHTML = `
+      <div class="plate-photos">
+        <div class="plate">
+          <div class="plate-label"><span>瀏覽活動照片</span><span>View the Moments</span></div>
+          <div class="plate-body"><div class="photos-grid"></div></div>
+        </div>
+      </div>
+    `;
     const grid = slot.querySelector('.photos-grid');
-    const empty = slot.querySelector('.photos-empty');
-    if (!allFiles.length){
-      empty.hidden = false;
-      grid.hidden = true;
-      return;
-    }
     grid.innerHTML = allFiles.map(f => {
       const url = photoFileUrl(f.folder, f.filename);
       return `<a href="${url}" rel="noopener"><img src="${url}" alt="${escapeHtml(course.zh)} 照片" loading="lazy"></a>`;
@@ -684,7 +675,7 @@
               <div class="plate-photos photos-section">
                 <div class="plate">
                   <div class="plate-label"><span>瀏覽活動照片</span><span>View the Moments</span></div>
-                  <div class="plate-body"><div class="photos-grid"></div><p class="photos-empty" hidden>活動照片整理中<span>Photos coming soon</span></p></div>
+                  <div class="plate-body"><div class="photos-grid"></div></div>
                 </div>
               </div>
             </div>
@@ -723,13 +714,12 @@
   async function loadSessionPdf(session, row){
     const key = `${session.date}_${session.slug}`;
     const wrap = row.querySelector('.pdf-canvas-wrap');
-    const label = row.querySelector('.pdf-page-label');
+    const plate = wrap.closest('.plate');
     const prevBtn = row.querySelector('.pdf-prev');
     const nextBtn = row.querySelector('.pdf-next');
 
     if (typeof pdfjsLib === 'undefined'){
-      wrap.innerHTML = '<p class="pdf-placeholder">投影片檢視元件載入失敗，請重新整理頁面。</p>';
-      label.textContent = '—';
+      plate.hidden = true;
       return;
     }
 
@@ -740,8 +730,7 @@
       try{
         doc = await pdfjsLib.getDocument(sessionPdfUrlFallback(session.date, session.slug)).promise;
       }catch(e2){
-      wrap.innerHTML = '<p class="pdf-placeholder">課程投影片整理中<span>Slides coming soon</span></p>';
-        label.textContent = '—';
+        plate.hidden = true;
         return;
       }
     }
@@ -788,17 +777,15 @@
   }
 
   async function loadSessionPhotos(session, row){
+    const section = row.querySelector('.photos-section');
     const grid = row.querySelector('.photos-grid');
-    const empty = row.querySelector('.photos-empty');
     if (!session.photoFolder){
-      empty.hidden = false;
-      grid.hidden = true;
+      section.hidden = true;
       return;
     }
     const files = await listPhotosInFolder(session.photoFolder);
     if (!files.length){
-      empty.hidden = false;
-      grid.hidden = true;
+      section.hidden = true;
       return;
     }
     grid.innerHTML = files.map(f => {
