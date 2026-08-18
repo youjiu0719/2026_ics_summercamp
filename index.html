@@ -63,6 +63,10 @@
     .entry-titles .zh{ font-size:17px; }
     .entry-quote{ font-size:15px; max-width:640px; }
     .wing-desc{ font-size:15px; max-width:640px; }
+    .overview-card{ padding:28px 26px; }
+    .overview-title{ font-size:18px; }
+    .overview-body{ font-size:14px; }
+    .month-tab-btn{ font-size:15px; padding:15px 12px; }
   }
 
   /* ---------- Masthead: full-bleed signage board ---------- */
@@ -116,6 +120,35 @@
   .closing-note{ border-bottom:none; }
 
   .wing-desc{ font-size:13.5px; line-height:1.85; color:var(--ink-soft); padding:14px 16px 22px; margin:0; }
+
+  /* ---------- Month overview cards ---------- */
+  .month-overview{
+    display:grid; grid-template-columns:1fr; gap:1px; background:var(--line);
+    border:1px solid var(--line); margin:28px 0 0;
+  }
+  @media (min-width:680px){
+    .month-overview{ grid-template-columns:1fr 1fr; }
+  }
+  .overview-card{ background:#fff; padding:22px 20px; }
+  .overview-tag{
+    display:flex; align-items:center; gap:6px;
+    font-family:var(--font-mono); font-size:10px; letter-spacing:0.08em; color:var(--accent);
+    margin:0 0 10px; text-transform:uppercase;
+  }
+  .overview-tag::before{ content:''; width:7px; height:7px; border-radius:50%; background:var(--accent); }
+  .overview-title{ font-family:var(--font-display); font-weight:700; font-size:16px; color:var(--ink); margin:0 0 8px; }
+  .overview-body{ font-size:13px; line-height:1.85; color:var(--ink-soft); margin:0; }
+
+  /* ---------- Month tab switcher ---------- */
+  .month-tabs{ display:flex; border-bottom:1px solid var(--line); margin-bottom:4px; }
+  .month-tab-btn{
+    flex:1; padding:13px 12px; background:none; border:none; border-bottom:3px solid transparent;
+    font-family:var(--font-display); font-weight:700; font-size:13.5px; color:var(--ink-faint);
+    cursor:pointer; transition:color .2s ease, border-color .2s ease;
+  }
+  .month-tab-btn .en{ font-family:var(--font-mono); font-weight:400; font-size:10px; margin-left:6px; letter-spacing:0.03em; }
+  .month-tab-btn:hover{ color:var(--ink); }
+  .month-tab-btn.active{ color:var(--accent); border-bottom-color:var(--accent); }
 
   .meta-strip{ display:flex; border-bottom:1px solid var(--line); }
   .meta-strip div{
@@ -248,6 +281,33 @@
   footer{ background:var(--indigo); padding:20px; }
   footer p{ font-family:var(--font-mono); font-size:11px; color:#B8AFEA; margin:0; letter-spacing:0.03em; text-align:center; }
 
+  /* ---------- Lightbox ---------- */
+  .lightbox{
+    position:fixed; inset:0; background:rgba(20,17,60,0.94); z-index:100;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .lb-img{ max-width:88vw; max-height:82vh; object-fit:contain; }
+  .lb-close, .lb-nav{
+    position:absolute; background:rgba(255,255,255,0.1); border:none; border-radius:50%;
+    width:40px; height:40px; display:flex; align-items:center; justify-content:center;
+    color:#fff; cursor:pointer; transition:background .2s ease;
+  }
+  .lb-close:hover, .lb-nav:hover{ background:rgba(255,255,255,0.2); }
+  .lb-close{ top:20px; right:20px; }
+  .lb-close svg{ width:18px; height:18px; }
+  .lb-nav svg{ width:22px; height:22px; }
+  .lb-prev{ left:16px; top:50%; transform:translateY(-50%); }
+  .lb-next{ right:16px; top:50%; transform:translateY(-50%); }
+  .lb-nav:disabled{ opacity:0.25; cursor:default; }
+  .lb-count{
+    position:absolute; bottom:22px; left:50%; transform:translateX(-50%);
+    font-family:var(--font-mono); font-size:11px; color:#B8AFEA; letter-spacing:0.05em;
+  }
+  @media (max-width:480px){
+    .lb-prev{ left:6px; } .lb-next{ right:6px; }
+    .lb-close, .lb-nav{ width:36px; height:36px; }
+  }
+
   @media (max-width:480px){
     .entry-num{ width:52px; font-size:21px; }
     .meta-strip div{ padding:10px 12px; }
@@ -278,6 +338,9 @@
     <p>孩子們從簡單的觀察、閱讀與操作開始，接觸平常較少體驗的主題。這個網站整理了課程使用的投影片與活動照片，記錄孩子們參與課程的過程。</p>
   </section>
 
+  <div id="month-overview" class="month-overview"></div>
+  <div id="month-tabs" class="month-tabs"></div>
+
   <div id="wings"></div>
 
   <section class="closing-note">
@@ -293,6 +356,20 @@
   </footer>
 </div>
 
+<div class="lightbox" id="lightbox" hidden>
+  <button class="lb-close" aria-label="關閉">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+  </button>
+  <button class="lb-nav lb-prev" aria-label="上一張">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg>
+  </button>
+  <img class="lb-img" src="" alt="">
+  <button class="lb-nav lb-next" aria-label="下一張">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>
+  </button>
+  <span class="lb-count"></span>
+</div>
+
 <script src="./data.js"></script>
 <script>
   if (typeof pdfjsLib !== 'undefined') {
@@ -301,6 +378,7 @@
 
   const wingsEl = document.getElementById('wings');
   const sessionState = {};
+  let currentOpenEntry = null;
   const wingLabel = { jul: 'WING A — JULY', aug: 'WING B — AUGUST' };
   const wingDesc = {
     jul: {
@@ -334,7 +412,7 @@
     return `<svg class="${cls}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>`;
   }
 
-  MONTHS.forEach(month => {
+  const monthsWithContent = MONTHS.map(month => {
     const coursesInMonth = COURSES
       .map(course => {
         if (course.type === 'fixed') {
@@ -344,17 +422,51 @@
         return sessionsInMonth.length ? { course, sessions: sessionsInMonth } : null;
       })
       .filter(Boolean);
+    return coursesInMonth.length ? { month, coursesInMonth } : null;
+  }).filter(Boolean);
 
-    if (!coursesInMonth.length) return;
+  // 月份總覽卡片
+  const overviewEl = document.getElementById('month-overview');
+  overviewEl.innerHTML = monthsWithContent.map(({ month }) => {
+    const d = wingDesc[month.id] || {};
+    return `
+      <div class="overview-card wing-${month.id}">
+        <p class="overview-tag">${wingLabel[month.id] || month.zh}</p>
+        <p class="overview-title">${d.title || month.zh}</p>
+        <p class="overview-body">${d.body || ''}</p>
+      </div>
+    `;
+  }).join('');
 
+  // 月份切換按鈕
+  const tabsEl = document.getElementById('month-tabs');
+  tabsEl.innerHTML = monthsWithContent.map(({ month }, i) => `
+    <button class="month-tab-btn wing-${month.id} ${i === 0 ? 'active' : ''}" data-month="${month.id}">
+      ${month.zh}<span class="en">${month.en}</span>
+    </button>
+  `).join('');
+
+  tabsEl.querySelectorAll('.month-tab-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const targetMonth = btn.dataset.month;
+      tabsEl.querySelectorAll('.month-tab-btn').forEach(b => b.classList.toggle('active', b === btn));
+      wingsEl.querySelectorAll('[data-month]').forEach(w => {
+        w.hidden = w.dataset.month !== targetMonth;
+      });
+    });
+  });
+
+  // 課程列表（依月份分區，只顯示目前選中的月份）
+  monthsWithContent.forEach(({ month, coursesInMonth }, wingIdx) => {
     const wing = document.createElement('section');
     wing.className = `wing-${month.id}`;
+    wing.dataset.month = month.id;
+    wing.hidden = wingIdx !== 0;
     wing.innerHTML = `
       <div class="wing-head">
         <span class="tag"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v6M12 22v-6M2 12h6M22 12h-6"/></svg>${wingLabel[month.id] || month.zh}</span>
         <span class="label">${month.zh} · ${coursesInMonth.length} 堂課</span>
       </div>
-      <p class="wing-desc"><strong>${(wingDesc[month.id] || {}).title || ''}</strong><br>${(wingDesc[month.id] || {}).body || ''}</p>
     `;
     wingsEl.appendChild(wing);
 
@@ -388,8 +500,13 @@
       let loaded = false;
       head.addEventListener('click', () => {
         const isOpen = entry.classList.contains('open');
+        if (currentOpenEntry && currentOpenEntry !== entry){
+          currentOpenEntry.classList.remove('open');
+          currentOpenEntry.querySelector('.entry-head').setAttribute('aria-expanded', 'false');
+        }
         entry.classList.toggle('open', !isOpen);
         head.setAttribute('aria-expanded', String(!isOpen));
+        currentOpenEntry = !isOpen ? entry : null;
         if (!isOpen && !loaded){
           loaded = true;
           renderSkills(course, entry);
@@ -429,8 +546,9 @@
     }
     grid.innerHTML = allFiles.map(f => {
       const url = photoFileUrl(f.folder, f.filename);
-      return `<a href="${url}" target="_blank" rel="noopener"><img src="${url}" alt="${escapeHtml(course.zh)} 照片" loading="lazy"></a>`;
+      return `<a href="${url}" rel="noopener"><img src="${url}" alt="${escapeHtml(course.zh)} 照片" loading="lazy"></a>`;
     }).join('');
+    bindPhotoGridLightbox(grid);
   }
 
   function renderSkills(course, entry){
@@ -461,6 +579,7 @@
     }
     const list = document.createElement('div');
     list.className = 'session-index';
+    let currentOpenSession = null;
     sessions.forEach(session => {
       const key = `${session.date}_${session.slug}`;
       sessionState[key] = { loaded:false, pdfDoc:null, page:1, pageCount:0, rendering:false };
@@ -511,8 +630,13 @@
 
       sHead.addEventListener('click', () => {
         const isOpen = row.classList.contains('open');
+        if (currentOpenSession && currentOpenSession !== row){
+          currentOpenSession.classList.remove('open');
+          currentOpenSession.querySelector('.session-head').setAttribute('aria-expanded', 'false');
+        }
         row.classList.toggle('open', !isOpen);
         sHead.setAttribute('aria-expanded', String(!isOpen));
+        currentOpenSession = !isOpen ? row : null;
         if (!isOpen && !sessionLoaded){
           sessionLoaded = true;
           loadSessionPdf(session, row);
@@ -606,8 +730,59 @@
     }
     grid.innerHTML = files.map(f => {
       const url = photoFileUrl(f.folder, f.filename);
-      return `<a href="${url}" target="_blank" rel="noopener"><img src="${url}" alt="${escapeHtml(session.title)} 照片" loading="lazy"></a>`;
+      return `<a href="${url}" rel="noopener"><img src="${url}" alt="${escapeHtml(session.title)} 照片" loading="lazy"></a>`;
     }).join('');
+    bindPhotoGridLightbox(grid);
+  }
+
+  // ---------- Lightbox ----------
+  const lightbox = document.getElementById('lightbox');
+  const lbImg = lightbox.querySelector('.lb-img');
+  const lbPrev = lightbox.querySelector('.lb-prev');
+  const lbNext = lightbox.querySelector('.lb-next');
+  const lbCount = lightbox.querySelector('.lb-count');
+  const lbClose = lightbox.querySelector('.lb-close');
+  let lbUrls = [];
+  let lbIndex = 0;
+
+  function openLightbox(urls, index){
+    lbUrls = urls;
+    lbIndex = index;
+    showLightboxImage();
+    lightbox.hidden = false;
+    document.body.style.overflow = 'hidden';
+  }
+  function closeLightbox(){
+    lightbox.hidden = true;
+    document.body.style.overflow = '';
+  }
+  function showLightboxImage(){
+    lbImg.src = lbUrls[lbIndex];
+    lbCount.textContent = `${lbIndex + 1} / ${lbUrls.length}`;
+    lbPrev.disabled = lbIndex <= 0;
+    lbNext.disabled = lbIndex >= lbUrls.length - 1;
+  }
+  lbPrev.addEventListener('click', () => { if (lbIndex > 0){ lbIndex--; showLightboxImage(); } });
+  lbNext.addEventListener('click', () => { if (lbIndex < lbUrls.length - 1){ lbIndex++; showLightboxImage(); } });
+  lbClose.addEventListener('click', closeLightbox);
+  lightbox.addEventListener('click', (e) => { if (e.target === lightbox) closeLightbox(); });
+  document.addEventListener('keydown', (e) => {
+    if (lightbox.hidden) return;
+    if (e.key === 'Escape') closeLightbox();
+    if (e.key === 'ArrowLeft' && !lbPrev.disabled) { lbIndex--; showLightboxImage(); }
+    if (e.key === 'ArrowRight' && !lbNext.disabled) { lbIndex++; showLightboxImage(); }
+  });
+
+  // Wires up a rendered .photos-grid so clicking a photo opens the lightbox with left/right navigation
+  function bindPhotoGridLightbox(grid){
+    const links = Array.from(grid.querySelectorAll('a'));
+    const urls = links.map(a => a.getAttribute('href'));
+    links.forEach((a, i) => {
+      a.addEventListener('click', (e) => {
+        e.preventDefault();
+        openLightbox(urls, i);
+      });
+    });
   }
 
   function escapeHtml(str){
