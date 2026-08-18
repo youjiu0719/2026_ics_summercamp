@@ -204,7 +204,9 @@ const COURSES = [
 const WORK_TOPIC_COURSE_MAP = {
   'pixel': '01-ipad',
   'pixel1': '01-ipad',
-  'pixelart': '01-ipad'
+  'pixelart': '01-ipad',
+  'lasso': '01-ipad',
+  'layer': '01-ipad'
 };
 
 function workUrl(filename) {
