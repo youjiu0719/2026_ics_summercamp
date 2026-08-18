@@ -89,7 +89,9 @@ const COURSES = [
 從冰涼甜點、日式料理到英式下午茶，孩子們透過簡單的料理活動接觸不同食材，也認識各國飲食文化與基本餐桌禮儀。
 課程以動手體驗為主，讓孩子參與準備與製作過程，享受一起完成料理的樂趣。`,
     sessions: [
-      { date: '0728', slug: 'sushi_culture', title: '壽司文化',
+      { date: '0714', slug: 'cool_sweet', title: '冰涼甜心工作坊', photoFolder: '0714_冰品',
+        intro: `孩子們動手製作清涼消暑的甜點，認識冰品的基本做法與食材搭配，享受親手完成點心的樂趣。` },
+      { date: '0728', slug: 'sushi_culture', title: '壽司文化', photoFolder: '0728_壽司',
         intro: `從壽司的歷史、種類與常見食材出發，認識醋飯、海苔與配料的特色，並在料理體驗中學習日本飲食文化與用餐禮儀。` }
     ]
   },
@@ -104,7 +106,7 @@ const COURSES = [
 孩子們先從圖片與袖珍藝術中尋找靈感，再使用樹脂黏土嘗試製作簡單的微縮作品。
 課程讓孩子初步體驗造型、配色與細節製作，並依照自己的主題設計小小展品。`,
     sessions: [
-      { date: '00', slug: 'diy', title: '手做小屋DIY・袖珍小屋', photoFolder: '00_DIY' },
+      { date: '00', slug: 'diy', title: '手做小屋DIY・袖珍小屋', photoFolder: '00_diy' },
       { date: '00', slug: 'clay', title: '黏土DIY', photoFolder: '00_clay' }
     ]
   },
@@ -175,7 +177,23 @@ const COURSES = [
       { date: '0707', slug: 'palace_museum_story', title: '故宮的故事',
         intro: `認識國立故宮博物院的歷史，了解珍貴文物如何來到臺灣，以及博物館如何透過溫度、濕度、燈光與修復技術保存收藏。` },
       { date: '0721', slug: 'water_museum', title: '探索自來水博物館',
-        intro: `參訪前先認識水循環、自來水的淨化過程，以及臺北自來水博物館的歷史與建築特色，帶著觀察任務探索百年抽水設備。` }
+        intro: `參訪前先認識水循環、自來水的淨化過程，以及臺北自來水博物館的歷史與建築特色，帶著觀察任務探索百年抽水設備。` },
+      { date: '0811', slug: 'miniature_museum', title: '袖珍博物館', photoFolder: '0811_袖珍博物館',
+        intro: `走訪袖珍博物館，實地觀察微縮模型的工藝與細節，對照課堂上認識過的袖珍藝術，加深對比例與細節的理解。` }
+    ]
+  },
+  {
+    id: '10-soap',
+    zh: '肥皂DIY',
+    en: 'Soap Making',
+    icon: 'droplet',
+    type: 'sessions',
+    skills: ['材料認識', '手作步驟'],
+    intro: `｜動手做一塊屬於自己的肥皂｜
+孩子們初步認識手工皂的基本材料與製作步驟，透過簡單的調配與塑形，完成一塊屬於自己的肥皂。`,
+    sessions: [
+      { date: '0724', slug: 'soap', title: '肥皂DIY', photoFolder: '0724_soap',
+        intro: `從認識基礎材料開始，孩子們動手調配、倒模，體驗手工皂從液態到成形的完整過程。` }
     ]
   }
 ];
