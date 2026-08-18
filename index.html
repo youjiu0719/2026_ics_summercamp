@@ -52,7 +52,18 @@
     *{animation-duration:0.01ms !important; transition-duration:0.01ms !important;}
   }
 
-  .wrap{max-width:760px; margin:0 auto;}
+  .wrap{max-width:900px; margin:0 auto;}
+
+  @media (min-width:900px){
+    .masthead{ padding:64px 32px 36px; }
+    .masthead h1{ font-size:clamp(38px, 4.5vw, 54px); }
+    .masthead .tagline{ font-size:16px; max-width:560px; }
+    .program-intro p:not(.section-heading), .closing-note p:not(.section-heading){ font-size:15px; max-width:680px; }
+    .entry-num{ width:84px; font-size:22px; }
+    .entry-titles .zh{ font-size:17px; }
+    .entry-quote{ font-size:15px; max-width:640px; }
+    .wing-desc{ font-size:15px; max-width:640px; }
+  }
 
   /* ---------- Masthead: full-bleed signage board ---------- */
   .masthead{ background:var(--indigo); color:#fff; padding:44px 20px 26px; position:relative; overflow:hidden; }
@@ -365,6 +376,7 @@
               <div class="skills-slot"></div>
               <div class="intro-slot"></div>
               <div class="sessions-slot"></div>
+              <div class="fixed-photos-slot"></div>
             </div>
           </div>
         </div>
@@ -382,10 +394,43 @@
           renderSkills(course, entry);
           renderIntro(course, entry);
           if (course.type === 'sessions') renderSessionIndex(course, sessions, entry);
+          if (course.type === 'fixed' && (course.photoFolder || (course.photoDates && course.photoDates.length))) renderFixedPhotos(course, entry);
         }
       });
     });
   });
+
+  async function renderFixedPhotos(course, entry){
+    const slot = entry.querySelector('.fixed-photos-slot');
+    slot.innerHTML = `
+      <div class="plate-photos">
+        <div class="plate">
+          <div class="plate-label"><span>瀏覽活動照片</span><span>View the Moments</span></div>
+          <div class="plate-body"><div class="photos-grid"></div><p class="photos-empty" hidden>活動照片整理中<span>Photos coming soon</span></p></div>
+        </div>
+      </div>
+    `;
+    let allFiles = [];
+    if (course.photoFolder){
+      allFiles = await listPhotosInFolder(course.photoFolder);
+    } else {
+      for (const date of course.photoDates) {
+        const files = await listPhotosByDate(date);
+        allFiles.push(...files);
+      }
+    }
+    const grid = slot.querySelector('.photos-grid');
+    const empty = slot.querySelector('.photos-empty');
+    if (!allFiles.length){
+      empty.hidden = false;
+      grid.hidden = true;
+      return;
+    }
+    grid.innerHTML = allFiles.map(f => {
+      const url = photoFileUrl(f.folder, f.filename);
+      return `<a href="${url}" target="_blank" rel="noopener"><img src="${url}" alt="${escapeHtml(course.zh)} 照片" loading="lazy"></a>`;
+    }).join('');
+  }
 
   function renderSkills(course, entry){
     const slot = entry.querySelector('.skills-slot');
@@ -545,7 +590,9 @@
   }
 
   async function loadSessionPhotos(session, row){
-    const files = await listSessionPhotoFiles(session.date, session.slug);
+    const files = session.photoFolder
+      ? await listPhotosInFolder(session.photoFolder)
+      : await listPhotosByDate(session.date);
     const grid = row.querySelector('.photos-grid');
     const empty = row.querySelector('.photos-empty');
     if (!files.length){
@@ -553,8 +600,8 @@
       grid.hidden = true;
       return;
     }
-    grid.innerHTML = files.map(name => {
-      const url = sessionPhotoUrl(session.date, session.slug, name);
+    grid.innerHTML = files.map(f => {
+      const url = photoFileUrl(f.folder, f.filename);
       return `<a href="${url}" target="_blank" rel="noopener"><img src="${url}" alt="${escapeHtml(session.title)} 照片" loading="lazy"></a>`;
     }).join('');
   }
