@@ -120,6 +120,15 @@
   }
   .closing-note{ border-bottom:none; }
 
+  .student-gallery{ padding:32px 0; border-bottom:1px solid var(--line); }
+  .student-gallery .gallery-intro{ font-size:13.5px; color:var(--ink-soft); margin:0 0 18px; }
+  .gallery-grid{ grid-template-columns:repeat(3, 1fr); gap:10px; }
+  .gallery-grid .work-course-tag{
+    display:block; font-family:var(--font-mono); font-size:9px; color:var(--ink-faint); text-align:center; margin-top:1px;
+  }
+  @media (min-width:680px){ .gallery-grid{ grid-template-columns:repeat(4, 1fr); } }
+  @media (min-width:900px){ .gallery-grid{ grid-template-columns:repeat(6, 1fr); } }
+
   .wing-desc{ font-size:13.5px; line-height:1.85; color:var(--ink-soft); padding:14px 16px 22px; margin:0; }
 
   /* ---------- Month overview cards ---------- */
@@ -277,6 +286,18 @@
   .photos-grid{ display:grid; grid-template-columns:repeat(4, 1fr); gap:2px; background:var(--line); }
   .photos-grid a{ display:block; aspect-ratio:1; overflow:hidden; background:var(--accent-tint); }
   .photos-grid img{ width:100%; height:100%; object-fit:cover; display:block; transition:transform .3s ease; }
+
+  .works-grid{ display:grid; grid-template-columns:repeat(3, 1fr); gap:8px; }
+  .works-grid a{ display:block; text-decoration:none; }
+  .works-grid img{
+    width:100%; aspect-ratio:1; object-fit:cover; display:block; border:1px solid var(--line);
+    transition:transform .3s ease;
+  }
+  .works-grid a:hover img{ transform:scale(1.03); }
+  .work-caption{
+    display:block; font-family:var(--font-mono); font-size:10px; color:var(--ink-soft);
+    margin-top:5px; text-align:center;
+  }
   .photos-grid a:hover img{ transform:scale(1.05); }
 
   footer{ background:var(--indigo); padding:20px; }
@@ -346,6 +367,12 @@
 
   <div id="wings"></div>
 
+  <section id="student-gallery" class="student-gallery">
+    <p class="section-heading">學生作品集</p>
+    <p class="gallery-intro">孩子們在課堂上完成的作品，這裡集中呈現。</p>
+    <div id="gallery-grid" class="works-grid gallery-grid"></div>
+  </section>
+
   <section class="closing-note">
     <p class="section-heading">記錄這個夏天的學習</p>
     <p>這些投影片、照片與作品，記錄了孩子們在暑假期間接觸過的不同課程。</p>
@@ -414,6 +441,23 @@
   function arrowIcon(cls){
     return `<svg class="${cls}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>`;
   }
+
+  // 學生作品集（獨立區塊，自動掃描 works/ 資料夾）
+  const galleryGrid = document.getElementById('gallery-grid');
+  const gallerySection = document.getElementById('student-gallery');
+  (async function initGallery(){
+    const allWorks = await listAllWorks();
+    if (!allWorks.length){
+      gallerySection.hidden = true;
+      return;
+    }
+    galleryGrid.innerHTML = allWorks.map(w => {
+      const url = workUrl(w.file);
+      const course = COURSES.find(c => c.id === w.courseId);
+      return `<a href="${url}" rel="noopener"><img src="${url}" alt="${escapeHtml(w.student)} 的作品" loading="lazy"><span class="work-caption">${escapeHtml(w.student)}</span><span class="work-course-tag">${course ? escapeHtml(course.zh) : ''}</span></a>`;
+    }).join('');
+    bindPhotoGridLightbox(galleryGrid);
+  })();
 
   const monthsWithContent = MONTHS.map(month => {
     const coursesInMonth = COURSES
@@ -493,6 +537,7 @@
               <div class="intro-slot"></div>
               <div class="sessions-slot"></div>
               <div class="fixed-photos-slot"></div>
+              <div class="works-slot"></div>
             </div>
           </div>
         </div>
@@ -516,6 +561,7 @@
           renderIntro(course, entry);
           if (course.type === 'sessions') renderSessionIndex(course, sessions, entry);
           if (course.type === 'fixed' && (course.photoFolder || (course.photoDates && course.photoDates.length))) renderFixedPhotos(course, entry);
+          renderCourseWorks(course, entry);
         }
       });
     });
@@ -550,6 +596,27 @@
     grid.innerHTML = allFiles.map(f => {
       const url = photoFileUrl(f.folder, f.filename);
       return `<a href="${url}" rel="noopener"><img src="${url}" alt="${escapeHtml(course.zh)} 照片" loading="lazy"></a>`;
+    }).join('');
+    bindPhotoGridLightbox(grid);
+  }
+
+  async function renderCourseWorks(course, entry){
+    const slot = entry.querySelector('.works-slot');
+    const allWorks = await listAllWorks();
+    const works = allWorks.filter(w => w.courseId === course.id);
+    if (!works.length){ slot.innerHTML = ''; return; }
+    slot.innerHTML = `
+      <div class="plate-photos">
+        <div class="plate">
+          <div class="plate-label"><span>學生作品</span><span>Student Works</span></div>
+          <div class="plate-body"><div class="works-grid"></div></div>
+        </div>
+      </div>
+    `;
+    const grid = slot.querySelector('.works-grid');
+    grid.innerHTML = works.map(w => {
+      const url = workUrl(w.file);
+      return `<a href="${url}" rel="noopener"><img src="${url}" alt="${escapeHtml(w.student)} 的作品" loading="lazy"><span class="work-caption">${escapeHtml(w.student)}</span></a>`;
     }).join('');
     bindPhotoGridLightbox(grid);
   }

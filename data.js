@@ -198,6 +198,50 @@ const COURSES = [
   }
 ];
 
+// 學生作品：檔名放在 works/ 資料夾，格式「學生名字_作品主題.jpg」（平放，不分子資料夾）
+// 網站會自動掃描這個資料夾，不用手動登記每個檔案
+// 只要維護下面這張「主題關鍵字 → 課程」對照表，新場次有新的作品主題時，在這裡加一行就好
+const WORK_TOPIC_COURSE_MAP = {
+  'pixel': '01-ipad',
+  'pixel1': '01-ipad',
+  'pixelart': '01-ipad'
+};
+
+function workUrl(filename) {
+  return rawUrl(`works/${filename}`);
+}
+function workUrlFallback(filename) {
+  return rawUrlFallback(`works/${filename}`);
+}
+
+let _worksListCache = null;
+
+// 掃描 works/ 資料夾底下所有圖片檔，解析出「學生名字_主題」，並對應到課程
+async function listAllWorks() {
+  if (_worksListCache) return _worksListCache;
+  try {
+    const res = await fetch(`https://api.github.com/repos/${REPO.owner}/${REPO.name}/contents/works?ref=${REPO.branch}`);
+    if (!res.ok) { _worksListCache = []; return []; }
+    const data = await res.json();
+    if (!Array.isArray(data)) { _worksListCache = []; return []; }
+    _worksListCache = data
+      .filter(f => f.type === 'file' && /\.(jpe?g|png|webp)$/i.test(f.name))
+      .map(f => {
+        const base = f.name.replace(/\.(jpe?g|png|webp)$/i, '');
+        const sep = base.indexOf('_');
+        const student = sep > -1 ? base.slice(0, sep) : base;
+        const topic = sep > -1 ? base.slice(sep + 1) : '';
+        const courseId = WORK_TOPIC_COURSE_MAP[topic] || null;
+        return { file: f.name, student, topic, courseId };
+      })
+      .sort((a, b) => a.student.localeCompare(b.student));
+    return _worksListCache;
+  } catch (e) {
+    _worksListCache = [];
+    return [];
+  }
+}
+
 // intro 文字解析：用 ｜標題｜ 包住的行變小標題，其餘變段落文字
 function parseIntroText(raw) {
   if (!raw) return [];
