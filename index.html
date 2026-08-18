@@ -67,6 +67,7 @@
     .overview-title{ font-size:18px; }
     .overview-body{ font-size:14px; }
     .month-tab-btn{ font-size:15px; padding:15px 12px; }
+    .photos-grid{ grid-template-columns:repeat(6, 1fr); }
   }
 
   /* ---------- Masthead: full-bleed signage board ---------- */
@@ -273,7 +274,7 @@
   .photos-empty span{ display:block; font-style:normal; font-family:var(--font-mono); font-size:10px; margin-top:4px; }
 
   .plate-photos{ margin-top:12px; }
-  .photos-grid{ display:grid; grid-template-columns:repeat(3, 1fr); gap:1px; background:var(--line); }
+  .photos-grid{ display:grid; grid-template-columns:repeat(4, 1fr); gap:2px; background:var(--line); }
   .photos-grid a{ display:block; aspect-ratio:1; overflow:hidden; background:var(--accent-tint); }
   .photos-grid img{ width:100%; height:100%; object-fit:cover; display:block; transition:transform .3s ease; }
   .photos-grid a:hover img{ transform:scale(1.05); }
@@ -284,8 +285,10 @@
   /* ---------- Lightbox ---------- */
   .lightbox{
     position:fixed; inset:0; background:rgba(20,17,60,0.94); z-index:100;
-    display:flex; align-items:center; justify-content:center;
+    align-items:center; justify-content:center;
+    display:none;
   }
+  .lightbox:not([hidden]){ display:flex; }
   .lb-img{ max-width:88vw; max-height:82vh; object-fit:contain; }
   .lb-close, .lb-nav{
     position:absolute; background:rgba(255,255,255,0.1); border:none; border-radius:50%;
@@ -693,11 +696,14 @@
     const page = await s.pdfDoc.getPage(s.page);
     const containerWidth = wrap.clientWidth || 260;
     const baseViewport = page.getViewport({ scale: 1 });
-    const scale = containerWidth / baseViewport.width;
-    const viewport = page.getViewport({ scale });
+    const cssScale = containerWidth / baseViewport.width;
+    const outputScale = window.devicePixelRatio || 1;
+    const viewport = page.getViewport({ scale: cssScale * outputScale });
     const ctx = canvas.getContext('2d');
-    canvas.width = viewport.width;
-    canvas.height = viewport.height;
+    canvas.width = Math.floor(viewport.width);
+    canvas.height = Math.floor(viewport.height);
+    canvas.style.width = `${Math.floor(viewport.width / outputScale)}px`;
+    canvas.style.height = `${Math.floor(viewport.height / outputScale)}px`;
     await page.render({ canvasContext: ctx, viewport }).promise;
     label.textContent = `${s.page} / ${s.pageCount}`;
     s.rendering = false;
