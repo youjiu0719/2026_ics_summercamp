@@ -104,7 +104,8 @@ const COURSES = [
 孩子們先從圖片與袖珍藝術中尋找靈感，再使用樹脂黏土嘗試製作簡單的微縮作品。
 課程讓孩子初步體驗造型、配色與細節製作，並依照自己的主題設計小小展品。`,
     sessions: [
-      // 待補場次資料
+      { date: '00', slug: 'diy', title: '手做小屋DIY・袖珍小屋', photoFolder: '00_DIY' },
+      { date: '00', slug: 'clay', title: '黏土DIY', photoFolder: '00_clay' }
     ]
   },
   {
@@ -152,6 +153,7 @@ const COURSES = [
     icon: 'swimming',
     type: 'fixed',
     months: ['jul', 'aug'],
+    photoFolder: '00_swim',
     skills: ['換氣原理', '水中安全', '自信建立'],
     intro: `｜每週的水中活動｜
 孩子們每週外出進行游泳課程，依照個別程度練習基本動作、呼吸與水中活動。
@@ -204,22 +206,73 @@ function sessionPdfUrl(date, slug) {
 function sessionPdfUrlFallback(date, slug) {
   return rawUrlFallback(`slides/${date}_${slug}.pdf`);
 }
-function sessionPhotoUrl(date, slug, filename) {
-  return rawUrl(`photos/${date}_${slug}/${filename}`);
+
+// ---- 照片：只看資料夾名稱開頭的日期，不管後面怎麼命名 ----
+// 例如 photos/0808_游泳、photos/0808_泳裝日 都算是 "0808" 這天的照片
+
+let _photoFolderListCache = null;
+
+// 抓 photos/ 底下所有子資料夾名稱（只打一次 API，之後用快取）
+async function listAllPhotoFolders() {
+  if (_photoFolderListCache) return _photoFolderListCache;
+  try {
+    const res = await fetch(`https://api.github.com/repos/${REPO.owner}/${REPO.name}/contents/photos?ref=${REPO.branch}`);
+    if (!res.ok) { _photoFolderListCache = []; return []; }
+    const data = await res.json();
+    if (!Array.isArray(data)) { _photoFolderListCache = []; return []; }
+    _photoFolderListCache = data.filter(f => f.type === 'dir').map(f => f.name);
+    return _photoFolderListCache;
+  } catch (e) {
+    _photoFolderListCache = [];
+    return [];
+  }
 }
 
-// 用 GitHub API 檢查場次照片資料夾是否存在，並列出圖片檔名（不存在則回傳空陣列，不會報錯）
-async function listSessionPhotoFiles(date, slug) {
+// 找出所有以指定日期開頭的資料夾名稱（例如 "0808" -> ["0808_游泳"]）
+async function findPhotoFoldersByDate(date) {
+  const folders = await listAllPhotoFolders();
+  return folders.filter(name => name.startsWith(`${date}_`) || name === date);
+}
+
+// 抓某個日期底下所有照片，回傳 [{folder, filename}]（可能橫跨多個同日期資料夾）
+async function listPhotosByDate(date) {
+  const folders = await findPhotoFoldersByDate(date);
+  if (!folders.length) return [];
+  const results = [];
+  for (const folder of folders) {
+    try {
+      const res = await fetch(`https://api.github.com/repos/${REPO.owner}/${REPO.name}/contents/photos/${encodeURIComponent(folder)}?ref=${REPO.branch}`);
+      if (!res.ok) continue;
+      const data = await res.json();
+      if (!Array.isArray(data)) continue;
+      data
+        .filter(f => f.type === 'file' && /\.(jpe?g|png|webp)$/i.test(f.name))
+        .forEach(f => results.push({ folder, filename: f.name }));
+    } catch (e) {}
+  }
+  return results;
+}
+
+function photoFileUrl(folder, filename) {
+  return rawUrl(`photos/${encodeURIComponent(folder)}/${filename}`);
+}
+
+// 直接抓「指定資料夾名稱」底下的所有照片，不做日期比對（給 00_xxx 這種萬用資料夾用）
+async function listPhotosInFolder(folderName) {
   try {
-    const res = await fetch(`https://api.github.com/repos/${REPO.owner}/${REPO.name}/contents/photos/${date}_${slug}?ref=${REPO.branch}`);
+    const res = await fetch(`https://api.github.com/repos/${REPO.owner}/${REPO.name}/contents/photos/${encodeURIComponent(folderName)}?ref=${REPO.branch}`);
     if (!res.ok) return [];
     const data = await res.json();
     if (!Array.isArray(data)) return [];
     return data
       .filter(f => f.type === 'file' && /\.(jpe?g|png|webp)$/i.test(f.name))
-      .map(f => f.name)
-      .sort();
+      .map(f => ({ folder: folderName, filename: f.name }));
   } catch (e) {
     return [];
   }
+}
+
+// 場次專用的包裝：直接用場次日期去配對（忽略原本 slug 命名）
+async function listSessionPhotoFiles(date, slug) {
+  return listPhotosByDate(date);
 }
